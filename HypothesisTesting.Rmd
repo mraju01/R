@@ -1,0 +1,22 @@
+```{r}
+
+CL96= 0.96
+alpa = 1-CL96
+
+
+n= 21
+df = n-1
+
+#Calculating p Value
+p96= (1+CL96)
+
+# Calculating t value using qt()
+T96L= qt(CL96, df)
+
+
+
+
+
+
+```
+

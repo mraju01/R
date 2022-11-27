@@ -1,0 +1,867 @@
+<P>
+
+<BR>
+
+<CENTER>
+
+<FONT size=6, color="Blue">
+**M2 Project Report** </FONT>
+
+<FONT size=6, color="Red">
+<BR>**Probability Theory and Introductory Statistics** </FONT>
+
+
+<P>
+
+<FONT size=6, color="Black"> ALY 6010 - 71579 </FONT>
+
+
+
+<P>
+
+<BR>
+<FONT size=5, color="Black"> 
+<BR>
+**Maheswar Raju Narasaiah**
+
+<FONT size=5, color="Black"> 
+Prof: Dr. Dee Chiluiza 
+
+Date:`r format(Sys.time(), '%d %B, %Y')`
+
+</CENTER>
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+1. INTRODUCTION
+</FONT>
+</BR></B>
+
+
+Most professionals shape their behavior through an iterative learning process that includes mental rehearsal, action, and feedback. For those starting a new career or occupation, this process entails attempting to meet certain standards, observing the results, and making the necessary adjustments. These observations may result in increased effort ("I need to improve"), establishing a routine ("I'm doing okay"), or quitting ("I don't fit here") (Hader, 2004). These observations may be supported by feedback in a variety of forms, including measuring performance and mentoring by managers, self-comparisons with colleagues, and formal performance evaluations and rewards.
+
+**Benefits of a Compensation Survey **
+<P>
+A compensation survey can reveal how your salary levels and other employment benefits stack up against your industry, competitors, and region. This data can assist you in making better choices about the mix of pay and benefits you offer to attract and retain top personnel. A survey can also detail how employees are compensated, such as:
+
+- The mix of base and variable compensation (rewards, bonus payments, commissions, profit sharing) 
+- The mix of base and variable compensation (incentives, bonuses, commissions, profit sharing)
+- Bonus pool funding 
+- Vesting schedules and eligibility for equity awards 
+
+
+A survey can also help you evaluate policies like car insurance, maternity and paternity leave, shift premiums, and student loan assistance. How do they compare to what your competitors and industry have to offer? Do they live up to the expectations of prospective employees? Are some benefits that you do not provide becoming the norm?
+
+
+**What Is a Confidence Interval And Their Application**
+<P>
+In statistics, a confidence interval denotes the likelihood that a population parameter will fall between a set of values for a certain proportion of the time. Analysts frequently employ confidence intervals that contain 95% or 99% of the expected observations. Thus, if a point estimate of 10.00 is generated from a statistical model with a 95% confidence interval of 9.50 - 10.50, there is a 95% chance that the true value falls within that range (Bluman, 2014).
+
+A confidence interval is a set of values bounded above and below the mean of a statistic that are likely to contain an unknown population parameter. The percentage of probability, or certainty, that the confidence interval will contain the true population parameter when a random sample is drawn many times is referred to as the confidence level. Alternatively, "we are 99% certain (confidence level) that most of these samples (confidence intervals) contain the true population parameter," as the phrase goes.
+
+The most common misconception about confidence intervals is that they represent the proportion of data in a given sample that falls between the upper and lower bounds. The aforementioned 99% confidence interval of 70-to-78 inches, for example, could be misinterpreted as implying that 99% of the data in a random sample falls between these numbers. This is incorrect, though such a determination can be made using a separate statistical analysis method. This entails calculating the mean and standard deviation of the sample and plotting these values on a bell curve.
+
+
+**Application of Confidence Interval in Project Management**
+<P>
+Suppose a project manager wishes to estimate the average defects, the development team is introducing in software in a month after some development of a feature. He wants to reduce that as customer are concerned. He could select a random sample of past 7 days and find the average defects, team has introduced in this period, say, 24 Defects per week. From the sample mean, the project manager could infer that the average defects for the development in a month is  90 -98 Defects with 95% Confidence. 
+
+After the analysis, he will present his finding with his team members to find the root cause of it and make improvement plan to bring down the defect leakage to customer production. He might ask for improving our testing methods to improve satistication of customer.
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+2. ANALYSIS 
+</FONT>
+</BR></B>
+
+<P>
+In this section, we will perform analysis on various types of variables to gain insight and address our problems
+```{r message=FALSE, warning=FALSE}
+
+#"Library Used for Analysis of Car Sales
+library(magrittr)
+library(knitr)
+library(plotrix)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(CGPfunctions)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+library(kableExtra)
+
+
+
+# Datasets used in Project"
+
+## Salary data
+
+Salary <- read_excel("~/Desktop/Intro To Analytics - ALY 6000/ALY 6010 - Project/Data Sets/M2Data-1.xlsx", 
+    sheet = "salary_survey")
+
+## Pets Data
+Pets <- read_excel("~/Desktop/Intro To Analytics - ALY 6000/ALY 6010 - Project/Data Sets/M2Data-1.xlsx", 
+    sheet = "pets")
+
+#Salary List
+SalaryList <- read_excel("~/Desktop/Intro To Analytics - ALY 6000/ALY 6010 - Project/Data Sets/M2Data-1.xlsx", 
+    sheet = "salary_list")
+
+#Pets List
+Pets_List <- read_excel("~/Desktop/Intro To Analytics - ALY 6000/ALY 6010 - Project/Data Sets/M2Data-1.xlsx", 
+    sheet = "pets_list")
+
+
+```
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.75, COLOR ="#2770e6">
+2.1. ANALYSIS OF SALARY DATA
+</FONT>
+</BR></B>
+
+
+***About the Data Set***
+
+In this section, I have examined salary data from 20 stores, which includes details of store name, their compensation package.
+
+We have masked the store name as we want to keep this information confidential.
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.1.1. Confidence Intervals of Salary Data When Whole Data Was Taken As One 
+</FONT>
+</BR></B>
+
+
+```{r message=FALSE, warning=FALSE}
+
+#Removing NA Values from each column using na.omit() function
+Store1 = na.omit(Salary$Store1)
+Store2 = na.omit(Salary$Store2)
+Store3 = na.omit(Salary$Store3)
+Store4 = na.omit(Salary$Store4)
+Store5 = na.omit(Salary$Store5)
+Store6 = na.omit(Salary$Store6)
+Store7 = na.omit(Salary$Store7)
+Store8 = na.omit(Salary$Store8)
+Store9 = na.omit(Salary$Store9)
+Store10 = na.omit(Salary$Store10)
+Store11 = na.omit(Salary$Store11)
+Store12 = na.omit(Salary$Store12)
+Store13 = na.omit(Salary$Store13)
+Store14 = na.omit(Salary$Store14)
+Store15 = na.omit(Salary$Store15)
+Store16 = na.omit(Salary$Store16)
+Store17 = na.omit(Salary$Store17)
+Store18 = na.omit(Salary$Store18)
+Store19 = na.omit(Salary$Store19)
+Store20 = na.omit(Salary$Store20)
+
+#Creating for basic statistics for task 1.1
+meanSalary = (sum(Store1)+sum(Store2)+sum(Store3)+sum(Store4) +sum(Store5) +sum(Store6)+ sum(Store7) +sum(Store8)+ sum(Store9)
++sum(Store10) +sum(Store11) +sum(Store12) +sum(Store13) +sum(Store14)
++sum(Store15)+ sum(Store16) +sum(Store17) +sum(Store18) +sum(Store19) +sum(Store20))/247
+
+
+sdSalary = sd(SalaryList$Store)
+
+n = 247
+
+
+#Creating Object for 90% Confidence Interval 
+CL90= 0.90
+
+#Calculating Alpha Value
+alp90= (1-CL90)
+
+# Calculating Z value for Margin of Error
+Z90L= qnorm(alp90/2)
+
+#Calculating Margin of Error
+MarErr90 = Z90L*(sdSalary/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL90= meanSalary + MarErr90
+CLU90 = meanSalary - MarErr90
+
+#Calculation of C.I. Width for 90
+wd90 = CLU90 - CLL90
+
+#Vector Creation for 90% C.I.
+vectorCI90 = c(Z90L, MarErr90, CLU90, CLL90, wd90 )
+
+
+
+#Creating Object for 92% Confidence Interval 
+CL92= 0.92
+
+#Calculating Alpha Value
+alp92= (1-CL92)
+
+# Calculating Z value for Margin of Error
+Z92L= qnorm(alp92/2)
+
+#Calculating Margin of Error
+MarErr92 = Z92L*(sdSalary/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL92= meanSalary + MarErr92
+CLU92 = meanSalary - MarErr92
+
+#Calculation of C.I. Width for 92
+wd92 = CLU92 - CLL92
+
+
+#Vector Creation for 92% C.I.
+vectorCI92 = c(Z92L, MarErr92, CLU92, CLL92, wd92 )
+
+#Creating Object for 96% Confidence Interval 
+CL96= 0.96
+
+#Calculating Alpha Value
+alp96= (1-CL96)
+
+# Calculating Z value for Margin of Error
+Z96L= qnorm(alp96/2)
+
+#Calculating Margin of Error
+MarErr96 = Z96L*(sdSalary/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL96= meanSalary + MarErr96
+CLU96 = meanSalary - MarErr96
+
+#Calculation of C.I. Width for 96
+wd96 = CLU96 - CLL96
+
+#Vector Creation for 96% C.I.
+vectorCI96 = c(Z96L, MarErr96, CLU96, CLL96, wd96 )
+
+#Matrix Creation for compiling all the Confidence Interval Vectors
+Salary_Table = matrix(c(vectorCI90,vectorCI92, vectorCI96 ), nrow = 3, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+Salary_Table_Rounded = round(Salary_Table, digits = 3)
+
+##Naming Columns and Row Names in Table
+colnames (Salary_Table_Rounded) = c("Z Value",  "Marg of Error", "Upper C.L.","Lower C.L.", "Width of C.I.")
+
+rownames (Salary_Table_Rounded) = c("Confidence Interval 90%","Confidence Interval 92%", "Confidence Interval 96%")
+
+#Table Creation of of Matrix Using Knitr Package
+Salary_Table_Rounded %>% 
+  knitr::kable(caption = "Table 1: Z Values, Margin of Error, Upper Confidence limit, Lower Confidence Limit and Width of C.I. of Salaries with Different Confidence Intervals") %>%
+  kable_styling(bootstrap_options = c("striped","hover"))
+
+
+
+```
+
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.1.2. Confidence Intervals of Salary Data Where Each Store Was Taken As One Individual Data Set
+</FONT>
+</BR></B>
+
+
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating for basic statistics for task 1.2
+meanSalary = (mean(Store1)+mean(Store2)+mean(Store3)+mean(Store4) +mean(Store5) +mean(Store6)+ mean(Store7) +mean(Store8)+ mean(Store9)
++mean(Store10) +mean(Store11) +mean(Store12) +mean(Store13) +mean(Store14)
++mean(Store15)+ mean(Store16) +mean(Store17) +mean(Store18) +mean(Store19) +mean(Store20))/20
+
+
+sdSalary = (sd(Store1)+sd(Store2)+sd(Store3)+sd(Store4) +sd(Store5) +sd(Store6)+ sd(Store7) +sd(Store8)+ sd(Store9)
++sd(Store10) +sd(Store11) +sd(Store12) +sd(Store13) +sd(Store14)
++sd(Store15)+ sd(Store16) +sd(Store17) +sd(Store18) +sd(Store19) +sd(Store20))/20
+
+#Sample Size
+n = 20
+
+#Degree of Freedom
+df = n-1
+
+
+#Calculating Confidence for 90 %
+CL90= 0.90
+
+#Calculating p Value
+p90= (1+CL90)/2
+
+# Calculating t value for Margin of Error using qt()
+T90L= qt(p90, df)
+
+#Calculating Margin of Error
+MarErr90 = T90L*(sdSalary/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL90= meanSalary - MarErr90
+CLU90 = meanSalary + MarErr90
+
+#Calculation of C.I. Width for 90%
+wd90 = CLU90 - CLL90
+
+#Vector Creation for 90% C.I.
+vectorCI90 = c(T90L, MarErr90, CLU90, CLL90, wd90 )
+
+ 
+#Calculating Confidence for 92 %
+CL92= 0.92
+
+#Calculating p Value
+p92= (1+CL92)/2
+
+# Calculating t value for Margin of Error using qt()
+T92L= qt(p92, df)
+
+#Calculating Margin of Error
+MarErr92 = T92L*(sdSalary/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL92= meanSalary - MarErr92
+CLU92 = meanSalary + MarErr92
+
+#Calculation of C.I. Width for 92%
+wd92 = CLU92 - CLL92
+
+#Vector Creation for 92% C.I.
+vectorCI92 = c(T92L, MarErr92, CLU92, CLL92, wd92 )
+
+
+#Calculating Confidence for 96 %
+CL96= 0.96
+
+#Calculating p Value
+p96= (1+CL96)/2
+
+# Calculating t value for Margin of Error using qt()
+T96L= qt(p96, df)
+
+#Calculating Margin of Error
+MarErr96 = T96L*(sdSalary/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL96= meanSalary - MarErr96
+CLU96 = meanSalary + MarErr96
+
+#Calculation of C.I. Width for 96%
+wd96 = CLU96 - CLL96
+
+#Vector Creation for 96% C.I.
+vectorCI96 = c(T96L, MarErr96, CLU96, CLL96, wd96 )
+
+
+#Matrix Creation for compiling all the Confidence Interval Vectors
+Salary_Table = matrix(c(vectorCI90,vectorCI92, vectorCI96 ), nrow = 3, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+Salary_Table_Rounded2 = round(Salary_Table, digits = 3)
+
+##Naming Columns and Row Names in Table
+colnames (Salary_Table_Rounded2) = c("T Value",  "Marg of Error", "Upper C.L.","Lower C.L.", "Width of C.I.")
+
+rownames (Salary_Table_Rounded2) = c("Confidence Interval 90%","Confidence Interval 92%", "Confidence Interval 96%")
+
+#Table Creation of of Matrix Using Knitr Package
+Salary_Table_Rounded2 %>% 
+  knitr::kable(caption = "Table 2: T Values, Margin of Error, Upper Confidence limit, Lower Confidence Limit and Width of C.I. of Salaries with Different Confidence Intervals") %>%
+  kable_styling(bootstrap_options = c("striped","hover"))
+
+
+
+```
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.1.3. Observation for Confidence Intervals Between The Two Data Set
+</FONT>
+</BR></B>
+
+-  We can clearly notice that width of confidence interval for T-distribution is always more than Z-Distribution.
+-  For example, if we take a close look and compare between the width of 95% confidence interval, we see that for Z-Distribution, the lenght is 0.849 and for t-distribution, it is 1.193
+-  The margin of error for Z-distribution is lesser than T- Distribution.
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.1.4. Density Plot
+</FONT>
+</BR></B>
+
+```{r message=FALSE, warning=FALSE}
+
+#Plotting the Density Plot
+
+densityStore = density(SalaryList$Store)
+plot(densityStore, adjust = 2,main = "Fig 1. Density Plot Of Salaries With 92% Confidence Interval")
+
+# Fill area
+polygon(densityStore, col = rgb(0.5, 0.8, 0.157, alpha = 0.6))
+
+#Plotting the Confidence Interval: Upper and Lower Limit on density plot
+abline(v= CLL92, col = "Red")
+abline(v= CLU92, col = "Red")
+abline(v= meanSalary, col = "Red")
+
+#Getting the Z Score for Confidence Upper and Lower Limit
+ZscoreL = (CLL92 - meanSalary)/sdSalary
+ZscoreU = (CLU92 - meanSalary)/sdSalary
+
+#Adding text for vertical lines"
+text(x=CLL92 - 0.5, y=0.06,
+     paste("Value =",round(CLL92,2),",  Zscore = ",round(ZscoreL,2)),
+     srt=90, cex=0.7)
+
+#Adding text for vertical lines"
+text(x=CLU92 + 0.5, y=0.04,
+     paste("Value =",round(CLU92,3),",  Zscore = ",round(ZscoreU,2)),
+     srt=90, cex=0.7)
+
+
+#Adding text for vertical lines"
+text(x=meanSalary + 0.25, y=0.06,
+     paste("Mean =",round(meanSalary,3)),
+     srt=90, cex=0.6)
+
+
+```
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.1.5. Box Plot with Data Lables for All The Individual Stores
+</FONT>
+</BR></B>
+
+```{r message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
+
+
+box1 = boxplot.stats(Store1)$stats
+box2 = boxplot.stats(Store2)$stats
+box3 = boxplot.stats(Store3)$stats
+box4 = boxplot.stats(Store4)$stats
+box5 = boxplot.stats(Store5)$stats
+box6 = boxplot.stats(Store6)$stats
+box7 = boxplot.stats(Store7)$stats
+box8 = boxplot.stats(Store8)$stats
+box9 = boxplot.stats(Store9)$stats
+box10 = boxplot.stats(Store10)$stats
+box11 = boxplot.stats(Store11)$stats
+box12 = boxplot.stats(Store12)$stats
+box13 = boxplot.stats(Store13)$stats
+box14 = boxplot.stats(Store14)$stats
+box15 = boxplot.stats(Store15)$stats
+box16 = boxplot.stats(Store16)$stats
+box17 = boxplot.stats(Store17)$stats
+box18 = boxplot.stats(Store18)$stats
+box19 = boxplot.stats(Store19)$stats
+box20 = boxplot.stats(Store20)$stats
+
+store_stats = matrix(c(box1, box2, box3, box4, box5, box6, box7, box8, box9, box10, box11, box12, box13, box14, box15, box16, box17, box18, box19, box20), nrow = 20, byrow = TRUE)
+
+##Rounding Digits in Matrix
+store_stats_Rounded = round(store_stats, digits = 1)
+
+boxplot(Salary, xaxt = "n", col = brewer.pal(12, "Set3"), main = " Fig 2. Box Plot with Quantiles and Mean of each store")
+
+text(y = store_stats_Rounded[1,],
+     labels = store_stats_Rounded[1,],
+     x=0.5,
+     cex = 0.6,
+     col = "#A11515")
+
+text(y = store_stats_Rounded[2,],
+     labels = store_stats_Rounded[2,],
+     x=1.5,
+     cex = 0.6,
+     col = "#A11515")
+
+text(y = store_stats_Rounded[3,],
+     labels = store_stats_Rounded[3,],
+     x=2.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[4,],
+     labels = store_stats_Rounded[4,],
+     x=3.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[5,],
+     labels = store_stats_Rounded[5,],
+     x=4.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[6,],
+     labels = store_stats_Rounded[6,],
+     x=5.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[7,],
+     labels = store_stats_Rounded[7,],
+     x=6.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[8,],
+     labels = store_stats_Rounded[8,],
+     x=7.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[9,],
+     labels = store_stats_Rounded[9,],
+     x=8.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[10,],
+     labels = store_stats_Rounded[10,],
+     x=9.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[11,],
+     labels = store_stats_Rounded[11,],
+     x=10.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[12,],
+     labels = store_stats_Rounded[12,],
+     x=11.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[13,],
+     labels = store_stats_Rounded[13,],
+     x=12.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[14,],
+     labels = store_stats_Rounded[14,],
+     x=13.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[15,],
+     labels = store_stats_Rounded[15,],
+     x=14.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[16,],
+     labels = store_stats_Rounded[16,],
+     x=15.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[17,],
+     labels = store_stats_Rounded[17,],
+     x=16.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[18,],
+     labels = store_stats_Rounded[18,],
+     x=17.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[19,],
+     labels = store_stats_Rounded[19,],
+     x=18.5,
+     cex = 0.6,
+     col = "#A11515")
+text(y = store_stats_Rounded[20,],
+     labels = store_stats_Rounded[20,],
+     x=19.5,
+     cex = 0.6,
+     col = "#A11515")
+
+
+mbox1 = mean(Store1)
+mbox2 = mean(Store2)
+mbox3 = mean(Store3)
+mbox4 = mean(Store4)
+mbox5 = mean(Store5)
+mbox6 = mean(Store6)
+mbox7 = mean(Store7)
+mbox8 = mean(Store8)
+mbox9 = mean(Store9)
+mbox10 = mean(Store10)
+mbox11 = mean(Store11)
+mbox12 = mean(Store12)
+mbox13 = mean(Store13)
+mbox14 = mean(Store14)
+mbox15 = mean(Store15)
+mbox16 = mean(Store16)
+mbox17 = mean(Store17)
+mbox18 = mean(Store18)
+mbox19 = mean(Store19)
+mbox20 = mean(Store20)
+
+store_mean = matrix(c(mbox1, mbox2, mbox3, mbox4, mbox5, mbox6, mbox7, mbox8, mbox9, mbox10, mbox11, mbox12, mbox13, mbox14, mbox15, mbox16, mbox17, mbox18, mbox19, mbox20), nrow = 20, byrow = TRUE)
+
+points(store_mean, col="Red",pch=18)
+
+
+  
+
+```
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.1.6. Observations
+</FONT>
+</BR></B>
+
+- Also, looking at density plot, we notice that the distribution is right-skewed and average salary of all the employess is 11.83, we can concur that with 92% confidence that, average salary of population will be between 11.33 and 12.33. The width of Confidence interval is 1.
+- Looking, at the box plot, there is no obvious which we can notice, many of them don' have outliers.
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.75, COLOR ="#2770e6">
+2.2. ANALYSIS OF PETS DATA
+</FONT>
+</BR></B>
+
+***About the Data Set***
+
+In this section, I have taken survey among 204 people and ask them if they have one or more pets. It contains categorical answers of Yes and No. 
+
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.2.1. Confidence Interval for Pets Data
+</FONT>
+</BR></B>
+
+```{r message=FALSE, warning=FALSE}
+
+n = 204
+
+Yes = sum(Pets == 'Yes')
+No = (n - sum(Pets == 'No'))
+
+pYes = Yes/n
+pNo = No/n
+
+#Creating Object for 92% Confidence Interval 
+CL90= 0.90
+
+#Calculating Alpha Value
+alp90= (1-CL90)
+
+# Calculating Z value for Margin of Error
+Z90L= qnorm(alp90/2)
+
+#Margin of Error
+M90L = Z90L*sqrt((pYes*pNo/n))
+
+#Confidence Levels
+CIL90 = pYes - M90L 
+CIU90 =  pYes + M90L 
+
+#Width
+wd90 = CIL90 - CIU90
+
+#vector Creation
+vectorCI90 = c(Z90L, M90L, CIL90, CIU90, wd90 )
+
+
+#Creating Object for 92% Confidence Interval 
+CL92= 0.92
+
+#Calculating Alpha Value
+alp92= (1-CL92)
+
+# Calculating Z value for Margin of Error
+Z92L= qnorm(alp92/2)
+
+#Margin of Error
+M92L =Z92L*(sqrt((pYes*pNo/n)))
+
+#Confidence Levels
+CIL92 = pYes - M92L 
+CIU92 =  pYes + M92L 
+
+#Width
+wd92 = CIL92 - CIU92
+
+#vector Creation
+vectorCI92 = c(Z92L, M92L, CIL92, CIU92, wd92 )
+
+
+#Creating Object for 96% Confidence Interval 
+CL96= 0.96
+
+#Calculating Alpha Value
+alp96= (1-CL96)
+
+# Calculating Z value for Margin of Error
+Z96L= qnorm(alp96/2)
+
+#Margin of Error
+M96L =Z96L*sqrt((pYes*pNo/n))
+
+#Confidence Levels
+CIL96 = pYes - M96L 
+CIU96 =  pYes + M96L 
+
+# Width
+
+wd96 = CIL96 - CIU96
+
+#vector Creation
+vectorCI96 = c(Z96L, M96L, CIL96, CIU96, wd96 )
+
+
+#Matrix Creation for compiling all the Confidence Interval Vectors
+Pets_Table = matrix(c(vectorCI90,vectorCI92, vectorCI96 ), nrow = 3, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+Pets_Table_Rounded = round(Pets_Table, digits = 2)
+
+##Naming Columns and Row Names in Table
+colnames (Pets_Table_Rounded) = c("Z Value",  "Marg of Error", "Upper C.L.","Lower C.L.", "Width of C.I.")
+
+rownames (Pets_Table_Rounded) = c("Confidence Interval 90%","Confidence Interval 92%", "Confidence Interval 96%")
+
+#Table Creation of of Matrix Using Knitr Package
+Pets_Table_Rounded %>% 
+  knitr::kable(caption = "Table 1: Z Values, Margin of Error, Upper Confidence limit, Lower Confidence Limit and Width of C.I. of Salaries with Different Confidence Intervals") %>%
+  kable_styling(bootstrap_options = c("striped","hover"))
+
+
+
+```
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.2.2. Pie Chart and Box Plot for Pets Data With Frequencies and Percentages
+</FONT>
+</BR></B>
+
+
+```{r message=FALSE, warning=FALSE}
+
+# "Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfcol=c(1,2))
+
+# Used code mai=c() to control margins inside charts 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Creating Table
+tbar = table(Pets_List$Response)
+
+#Bar Plot
+plotResponse = barplot(tbar, main="Bar Plot for Response",
+                 xlab = ,
+                 ylab = "Frequency",
+                col = brewer.pal(15, "Set1"),
+                border = "black",
+                ylim = c(0,150),
+                 las = 1.5,
+                cex.lab = 1, 
+                cex.axis = 1,
+                 cex.names = 0.8,
+                 space = 0.3)
+
+#Adding Lables
+text(x=tbar, 
+     plotResponse, 
+     tbar, 
+     cex=0.8, 
+     pos = 1)
+
+#Labels Creation for Pie Chart
+pieLabel4 = paste( unique(sort(Pets_List$Response)),"(",round(100 * tbar /sum(tbar ), 2),"%",")")
+
+
+# Plot the pie chart for Fuel Type.
+pie1 = pie(tbar , labels = pieLabel4,
+           radius = 0.6,
+           col =  brewer.pal(7, "Dark2"),
+    border = "white",
+    lty = 1,
+    cex=0.8,
+    font = 2,
+    clockwise = T)
+
+# Legends Display"
+legend("topleft",
+       legend = paste(unique(sort(Pets_List$Response))),
+       fill = brewer.pal(7, "Dark2"),
+       border = "white")
+
+
+
+
+```
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+3. CONCLUSIONS
+</FONT>
+</BR></B>
+
+- The very first thing, that I observed was that the lower limits of Confidence Intervals are near the peak of the density plot, which showcases that due to the sample size being very small. Too small a sample may prevent the findings from being extrapolated, whereas too large a sample may amplify the detection of differences, emphasizing statistical differences that are not clinically relevant (Wickham & Grolemund, 2016).
+
+- Also, looking at density, we notice that the distribution is right-skewed and average salary of all the employess is 11.83, we can concur that with 92% confidence that, average salary of population will be between 11. 33 and 12
+
+- From the pets data, most of pet owners are now interested to keep more than 2 pets when looking at the data holistically which wasn't the case before.
+
+_ As pet food company, we can market our products to  multiple pet owners, given them discounts.
+
+
+
+
+
+
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+4. REFERENCES
+</FONT>
+</BR></B>
+
+1. Wickham, H., & Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. " O'Reilly Media, Inc."
+
+2. Hader, R. (2004). Salary Survey 2004: It’s time to check your role’s return on investment. Nursing Management, 35(7), 28-32.
+
+3. Bluman, A. (2014). Elementary Statistics: A step by step approach 9e. McGraw Hill.
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+5. APPENDIX
+</FONT>
+</BR></B>
+
+An R Markdown file has been attached to this report. The name of the
+file is Maheswar_Project2.Rmd
+ 

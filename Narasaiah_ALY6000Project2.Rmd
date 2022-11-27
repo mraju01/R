@@ -1,0 +1,1083 @@
+---
+title: "M2 Project"
+author: "Maheswar Raju Narasaiah"
+date: "2022-10-13"
+
+output: 
+  html_document:
+    toc: true # table of content true
+    toc_depth: 2  # upto three depths of headings (specified by #, ## and ###)
+    number_sections: true  ## if you want number sections at each table header
+    
+---
+
+
+<P>
+
+<BR>
+
+<CENTER>
+
+<FONT size=8, color="Grey"> **ALY 6000 - Introduction to Analytics**
+<BR>**Northeastern University** </FONT>
+
+<P>
+
+<FONT size=5, color="Black"> <BR>Maheswar Raju Narasaiah <BR> Date:
+`r format(Sys.time(), '%d %B, %Y')`
+
+<P>
+
+<FONT size=6, color="Black"> Project 2 - Executive Report </FONT>
+
+</CENTER>
+
+
+
+# 1. Introduction
+
+<P>
+
+Simply put, statistics is the branch of applied mathematics concerned
+with data collection, organization, analysis, interpretation, and
+presentation. Does this sound familiar? It ought to. All of these steps
+are critical in the data analytics process. In fact, data analytics is
+similar to statistics in many ways. When we say "data analytics," we
+really mean "the statistical analysis of a given dataset or datasets."
+But that's a mouthful, so we usually shorten it!
+
+Statistics are critical to any field in which data analysts work because
+they are so fundamental to data analytics. The wide range of statistical
+techniques available, from science and psychology to marketing and
+medicine, can be broadly divided into two categories: descriptive
+statistics and inferential statistics. But what's the distinction
+between them?
+
+**1.1. What is descriptive statistics?**
+
+<P>
+
+Descriptive statistics are used to describe the properties or
+characteristics of a dataset. The term "descriptive statistics" can
+refer to both individual quantitative observations (also known as
+"summary statistics") and the overall process of gaining insights from
+these data (Braun & Murdoch, 2021). Descriptive statistics can be used
+to describe an entire population or an individual sample. Because
+descriptive statistics are merely explanatory, they are unconcerned with
+the distinctions between the two types of data.
+
+**1.2. What is inferential statistics?**
+
+<P>
+
+As previously stated, descriptive statistics are concerned with
+summarizing the key features of a dataset. Meanwhile, inferential
+statistics are concerned with making broad statements about a larger
+population based on a representative sample of that population. Because
+inferential statistics is concerned with making predictions rather than
+stating facts, its outcomes are typically in the form of a probability.
+
+Inferential statistics, predictably, rely heavily on sample data that is
+both accurate and representative of the larger population. Obtaining a
+random sample is required to accomplish this. If you've ever read about
+scientific studies in the news, you've probably come across the term.
+The implication is that random sampling produces better results. Results
+based on biased or non-random samples, on the other hand, are usually
+discarded. Random sampling is critical for performing inferential
+techniques, but it is not always simple!
+
+**1.3. Importance of Proper Data Presentation?**
+
+<P>
+
+-   Information reports are the edge of any organization. An
+    organization require not be included with budgetary exchanges
+    straightforwardly some time recently information can be collated.
+    Information detailing is primarily for the reason of responsibility,
+    administration, and organization (Peng, 2016).
+
+-   The right reporting, analytics and information delivery strategy can
+    have a significant impact on an organization, fundamentally changing
+    the way people perform their jobs and how decisions are made. The
+    benefits of a successful strategy include: <BR> - Targeted delivery
+    of data and reporting and analytics capabilities <BR> - Increased
+    productivity <BR> - Employee satisfaction <BR> - Improved analysis
+    and decision-making <BR> - Increased organizational communication
+    and collaboration
+
+-   Reporting, analysis and delivery of information can have a
+    transformative impact on an organization when implemented correctly.
+    But deciding which features to use can be a daunting task for many
+    businesses. There are many options, and by focusing on each and how
+    to align them with business goals, organizations can improve the
+    success of their overall business intelligence environment.
+
+-   Raw data analysis makes research and innovation easier and more
+    efficient. These reports vary according to different topics, but the
+    end point and purpose of data analysis reports is to provide
+    information about the platform you are using.
+
+**1.4. Practical Applications of R in Data Analysis?**
+
+<P>
+
+Some of the important applications of R Programming Language in the
+domain of Data Science are:
+
+<P>
+
+**1.4.1. Finance** - R enables financial institutions to perform risk
+measurements, adjust risk performance and use visualizations such as
+candlestick charts, density charts, etc. R also provides tools to
+perform moving averages, autoregression and time series analysis. forms
+the core of financial applications. R is widely used for credit risk
+analysis in companies such as ANZ and portfolio management. The
+financial sector also uses R's time series statistical processes to
+model its stock market movements and forecast stock prices. R also
+provides options for economic data mining through its own packages such
+as quantmod, pdfetch, TFX, pwt, etc. R lets you easily retrieve
+information from network assets. With RShiny, you can also present your
+financial products with lively and interesting visualizations.
+
+<P>
+
+**1.4.2. Banking** - Like financial institutions, the banking industry
+uses R for credit risk modeling and other risk analyses. Banks use a lot
+of mortgage discount, which allows them to take over the property if the
+loan defaults. Mortgage Hairton modeling includes sale price
+distribution, sale price volatility and expected drawdown calculation.
+For these purposes, R is often used in conjunction with proprietary
+tools such as SAS (Chambers, 2008). R is also used with Hadoop to
+facilitate customer quality analysis, customer segmentation and
+retention.
+
+Bank of America makes use of R for financial reporting. With the help of
+R, the data scientists at BOA are able to analyze financial losses and
+make use of R's visualization tools.
+
+<P>
+
+**1.4.3. Healthcare** - Genetics, bioinformatics, drug research,
+epidemiology are some of the health fields where R is heavily used. With
+R, these companies can compress data and process information, providing
+an important background for further analysis and data processing
+(Sackmann, 1996). For advanced processing, such as drug development, R
+is most often used in preclinical studies and pharmacovigilance data
+analysis. It also provides users with exploratory data analysis and
+real-time visualization tools. R is also popular for its Bioconductor
+package, which provides various functions for analyzing genomic data. R
+is also used for statistical modeling in the field of epidemiology,
+where data scientists analyze and predict the spread of diseases.
+
+<P>
+
+**1.4.4. Social Media** - For many Data Science and R beginners, social
+media is a data playground. Sentiment analysis and other forms of social
+media data mining are important statistical tools used with R . Social
+media is also a challenging area for data science because the data
+shared on social media sites is largely unstructured. R is used for
+social media analysis, segmentation and targeting of potential customers
+to sell your products. Additionally, miner opinion is another popular
+category in social media analytics. R enables companies to model
+statistical tools that analyze user sentiment, allowing them to improve
+their experiences.
+
+# 2. Analysis
+
+```{r message=FALSE, warning=FALSE}
+#Library Used in Project
+library(magrittr)
+library(knitr)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+library(kableExtra)
+
+
+# Datasets used in Project
+SalesData <- read_excel("Data Sets/M2Project_Data-1.xlsx")
+```
+
+## Task 1 - Present the first 5 and the last 5 records from the dataset
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating a new vector for first 5  records
+hSalesData <- head(SalesData,5)
+
+#Creating a new vector for last 5  records
+tSalesData <- tail(SalesData,5)
+
+#Rbind for head and tail vector
+new_SalesData <- rbind(hSalesData,tSalesData)
+
+#Present the table
+knitr::kable(new_SalesData,
+             caption = "Presenting the Sales table",
+             format = "html",
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+  
+```
+
+### Observation
+
+-   The vector SalesData is created to store the first 5 records from
+    SalesData using code head().
+-   The vector SalesData is created to store the last 5 records from
+    SalesData using code tail().
+-   With the help of code rbind(), we merge the SalesData and SalesData
+    in a new dataset new_SalesData.
+-   The above table encapsulate the sales data for office product
+    supplies like Phones, Copiers, Machines, etc. across various region
+    such as "Africa","Asia Pacific","Europe","LATAM","USCA".
+-   The table new_SalesData provides us the glimpse of market
+    requirement and demand.
+
+## Task 2 - Present a table with all categories of Market and their frequencies
+
+```{r message=FALSE, warning=FALSE}
+#Initializing a new vector
+Market <- SalesData$Market
+Prod_Category <- SalesData$Product_Category
+Prod_Subcategory <- SalesData$Product_SubCategory
+
+#Initializing a new vector
+Market <- SalesData$Market
+Prod_Category <- SalesData$Product_Category
+Prod_Subcategory <- SalesData$Product_SubCategory
+Region <- SalesData$Region
+
+#Calculating Frequencies for Market and categories
+table1 <- table(Market,Prod_Subcategory)
+table2 <- table(Market)
+table3 <- table(Prod_Category)
+table4 <- table(Prod_Subcategory)
+table5 <- table(Market,Prod_Category)
+
+#Present the table using knitr::kable()
+
+knitr::kable(table2,
+             caption = "Market Category : Frequency",
+             format = "html",
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+
+
+```
+
+### Observation
+
+-   The table clearly shows the data collected is from 5 Markets around
+    the world.
+-   Africa has the lowest frequency amongst 5 markets
+-   Asia Pacific has the highest frequency amongst markets  
+    
+## Task 3 - Present a bar graph with all categories of Market and their frequencies
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating Bar Plot
+plot1 = barplot(table2[order(table2,decreasing = TRUE)],
+                main="Bar Plot for Market Categories",
+                xlab="Frequency",
+                ylab="Market", 
+                col = brewer.pal(12, "Set3"),
+                border = "black",
+                xlim = c(0,400),
+                 horiz = T,
+                las = 1,
+                 space = 0.4,
+                cex.axis = 1.1,
+                 cex.names = 0.7,
+                )
+##Adding labels for Bar chart
+text(table2 [order(table2,decreasing = TRUE)], 
+     plot1, 
+     table2[order(table2,decreasing = TRUE)], 
+     cex=0.8, 
+     pos=4)
+
+```
+
+### Observation
+
+-   
+## Task 4 - Pie chart of product category frequencies in Africa
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating a new vector for filtered Africa data from SalesData
+t4Africa = dplyr::filter(SalesData, Market=="Africa")
+
+#Calculating the frequency for Product category in Africa
+freq_Africa = table(t4Africa$Product_Category)
+
+#Adding labels for Pie chart
+pieLabels = paste(unique(sort(t4Africa$Product_Category)), sort(freq_Africa))
+
+
+#Creating Pie Chart
+pie1 = pie(freq_Africa,main = "Pie chart for Products in Africa", 
+           labels = pieLabels,radius = 0.7,
+           col =  brewer.pal(7, "Paired"),    
+           border = "white",
+    lty = 1,
+    cex=0.8,
+    font = 2)
+    
+legend("bottomleft",
+       legend = paste(unique(sort(t4Africa$Product_Category))),
+       fill = brewer.pal(7, "Paired"),
+       border = "white")
+box(col="black")
+
+```
+
+### Observation
+
+-  The maximum share of products is contributed by Technology (55.55%)
+-  On the other hand, the minimum share of products is contributed by Furniture (20.37%)
+-  With the above information, we can conclude that technology contributes around almost twice the number of office supplies and furniture put together.
+
+## Task 5 - Reproduce codes given by instructor
+
+```{r message=FALSE, warning=FALSE}
+# Create a table
+task5_table= table(t4Africa$Product_SubCategory)
+
+#Plot the table using a bar plot
+t5bar = barplot(task5_table)
+
+#Use text() to show the values per column
+text(y=table(t4Africa$Product_SubCategory),
+     t5bar,
+     table(t4Africa$Product_SubCategory),
+     cex= 0.8,
+     pos = 3
+       )
+```
+
+### Observation
+
+-   The margins of graph have to be corrected as many data lables are not visible.
+-  We have to also increase limit on axis to show all the data.
+
+## Task 6 - Improve bar plot from task 5
+
+```{r message=FALSE, warning=FALSE}
+
+par(mar = c(0.5,0.6,0.5,0.5),
+    mai = c(0.8,0.8,0.8,0.8))
+
+t5bar = barplot(task5_table[order(task5_table, decreasing = FALSE)],
+                main="Bar Plot for Product Subcategory in Africa",
+                 ylab = "Product Sub Category",
+                 xlab = "Frequency",
+                col = brewer.pal(12, "Set3"),
+                border = "black",
+                xlim = c(0,15),
+                 las = 1.5,
+                cex.lab = 1, 
+                cex.axis = 1,
+                 cex.names = 0.5,
+                 horiz = T,
+                 space = 0.4)
+
+text(task5_table [order(task5_table, decreasing = FALSE)],
+     t5bar,
+     task5_table [order(task5_table, decreasing = FALSE)],
+     cex= 0.8,
+     pos = 2)
+
+```
+
+### Observation
+
+-   The maximum share of product subcategory is contributed by Phones (24.07%)
+-  On the other hand, the minimum share of products is contributed by Storage and Chairs (5.5%)
+-  With the above information, we can conclude that phones sales contributes around almost 5 five the number of storage or chairs sales.
+
+## Task 7 - Mean sales per subcategory in the African Market
+
+```{r message=FALSE, warning=FALSE}
+meanSales = tapply(t4Africa$Sales, t4Africa$Product_SubCategory, mean)
+
+#knitr::kable(meanSales)
+knitr::kable(round(meanSales,2),format = "html", col.names = c(x = "Mean"),
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+
+
+#Creating dotchart
+dotchart(meanSales,col = brewer.pal(11, "Set1"))
+```
+
+### Observation
+
+-   The average sles of copier is maximum in the african market, which shows they are still using physical copy of paper for documentation instead of digital version
+-  The lowest average sale is of accessories,
+
+## Task 8 - Total sales per Region in the African Market
+
+```{r message=FALSE, warning=FALSE}
+par(mai=c(1.3, 1.35, 1.3, 1.3))
+
+#Calculate the sum of sales using tapply()
+TotalSales = tapply(t4Africa$Sales, t4Africa$Region, sum)
+
+
+#Present the table
+knitr::kable(round(TotalSales),format = "html", col.names = c(x = "Total"),
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+
+t7bar = barplot(TotalSales,
+                col = brewer.pal(12, "Set3"),
+                main = paste("Bar Plot for Total Sales per Region in Africa"),
+                xlab = paste("Total Sales"),
+                las = 1,
+                horiz=T,
+                xlim = c(0, 250000),
+                cex.lab = 1, 
+                cex.axis = 0.6,
+                 cex.names = 1,
+                 space = 0.4)
+text(x=TotalSales,
+     t7bar,
+     TotalSales,
+     cex= 0.8,
+     pos = 4
+       )
+
+```
+
+### Observation
+
+-   The total sales in central africa region is highest a mong the Africa Market
+- Total Sales is lowest in Eastern Africa, almost half of Central Africa
+
+
+## Task 9 - Mean shipping costs per Region in the African Market
+
+```{r message=FALSE, warning=FALSE}
+
+#Calculate the mean for Shipping Cost using tapply()
+meanShipping = tapply(t4Africa$ShippingCost, t4Africa$Region, mean, digits=2)
+
+
+#Round the meanShipping value
+roundShip = round(meanShipping,2)
+
+
+#Barplot the meanShipping value
+plotShipping = barplot(roundShip, main="Shipping Cost in Africa Region",
+                ylab="Shipping Cost per Region",
+                xlab="Region", 
+                col =  brewer.pal(7, "Paired"),
+                border = "black",
+               ylim=c(0,500),
+                 las = 1,
+                cex.lab = 1, 
+                cex.axis = 0.6,
+                 cex.names = 0.8,
+                 space = 0.4)
+
+text(y=roundShip, 
+     plotShipping, 
+     roundShip, 
+     cex=0.8, 
+     pos = 3)
+
+```
+
+### Observation
+
+-  The lowest shipping cost in Africa Market is in Southern Africa.
+-  The average cost of shipping in Africa Region is around 348 
+
+
+## Task 10 - Descriptions of Data Types in R
+
+"Datasets in R are often a combination of these 6 different data types.
+Below we explore in more detail each data types one by one, except the
+data type "complex" as we focus on the main ones and this data type is
+rarely used in practicev(Soetewey, 2019).
+
+**Numeric**
+
+<P>
+
+The most common data type in R is numeric. A variable or a series will
+be stored as numeric data if the values are numbers or if the values
+contains decimals. For example, the following two series are stored as
+numeric by default:"
+
+```{r}
+# numeric series without decimals
+num_data <- c(3, 7, 2)
+num_data
+## [1] 3 7 2
+class(num_data)
+## [1] "numeric"
+# numeric series with decimals
+num_data_dec <- c(3.4, 7.1, 2.9)
+num_data_dec
+## [1] 3.4 7.1 2.9
+class(num_data_dec)
+## [1] "numeric"
+# also possible to check the class thanks to str()
+str(num_data_dec)
+##  num [1:3] 3.4 7.1 2.9
+```
+
+In other words, if you assign one or several numbers to an object in R,
+it will be stored as numeric by default (numbers with decimals), unless
+specified otherwise.
+
+**Integer**
+
+<P>
+
+Integer data type is actually a special case of numeric data. Integers
+are numeric data without decimals. It can be used if you are sure that
+the numbers you store will never contains decimals. For example, let's
+say you are interested in the number of children in a sample of 10
+families. This variable is a discrete variable (see a reminder on the
+variable types if you do not remember what is a discrete variable) and
+will never have decimals. Therefore, it can be stored as integer data
+thanks to the as.integer() command:
+
+```{r message=FALSE, warning=FALSE}
+children <- c(1, 3, 2, 2, 4, 4, 1, 1, 1, 4)
+
+##  [1] 1 3 2 2 4 4 1 1 1 4
+children <- as.integer(children)
+class(children)
+## [1] "integer"
+```
+
+Note that if your variable does not have decimals, R will automatically
+set the type as integers instead of numeric.
+
+**Character**
+
+<P>
+
+The data type character is used when storing text, known as strings in
+R. The simplest ways to store data under the character format is by
+using "" around the piece of text:
+
+```{r}
+char <- "some text"
+char
+## [1] "some text"
+class(char)
+## [1] "character"
+```
+
+If you want to force any kind of data to be stored as character, you can
+do it by using the command as.character():
+
+```{r}
+char2 <- as.character(children)
+char2
+##  [1] "1" "3" "2" "2" "4" "4" "1" "1" "1" "4"
+class(char2)
+## [1] "character"
+```
+
+Note that everything inside "" will be considered as character, no
+matter if it looks like character or not. For example:
+
+```{r}
+chars <- c("7.42")
+chars
+## [1] "7.42"
+class(chars)
+## [1] "character"
+```
+
+Furthermore, as soon as there is at least one character value inside a
+variable or vector, the whole variable or vector will be considered as
+character:
+
+```{r}
+char_num <- c("text", 1, 3.72, 4)
+char_num
+## [1] "text" "1"    "3.72" "4"
+class(char_num)
+## [1] "character"
+```
+
+Last but not least, although space does not matter in numeric data, it
+does matter for character data:
+
+```{r}
+num_space <- c(1)
+num_nospace <- c(1)
+# is num_space equal to num_nospace?
+num_space == num_nospace
+## [1] TRUE
+char_space <- "text "
+char_nospace <- "text"
+# is char_space equal to char_nospace?
+char_space == char_nospace
+## [1] FALSE
+```
+
+As you can see from the results above, a space within character data
+(i.e., within "") makes it a different string in R!
+
+**Factor**
+
+<P>
+
+Factor variables are a special case of character variables in the sense
+that it also contains text. However, factor variables are used when
+there are a limited number of unique character strings. It often
+represents a categorical variable. For instance, the gender will usually
+take on only two values, "female" or "male" (and will be considered as a
+factor variable) whereas the name will generally have lots of
+possibilities (and thus will be considered as a character variable). To
+create a factor variable use the factor() function:
+
+```{r}
+gender <- factor(c("female", "female", "male", "female", "male"))
+gender
+## [1] female female male   female male  
+## Levels: female male
+```
+
+To know the different levels of a factor variable, use levels():
+
+```{r}
+levels(gender)
+## [1] "female" "male"
+```
+
+By default, the levels are sorted alphabetically. You can reorder the
+levels with the argument levels in the factor() function:
+
+```{r}
+gender <- factor(gender, levels = c("male", "female"))
+levels(gender)
+## [1] "male"   "female"
+```
+
+Character strings can be converted to factors with as.factor():
+
+```{r}
+text <- c("test1", "test2", "test1", "test1") # create a character vector
+class(text) # to know the class
+## [1] "character"
+text_factor <- as.factor(text) # transform to factor
+class(text_factor) # recheck the class
+## [1] "factor"
+```
+
+The character strings have been transformed to factors, as shown by its
+class of the type factor.
+
+**Logical**
+
+<P>
+
+A logical variable is a variable with only two values; TRUE or FALSE:
+
+```{r}
+value1 <- 7
+value2 <- 9
+
+# is value1 greater than value2?
+greater <- value1 > value2
+greater
+## [1] FALSE
+class(greater)
+## [1] "logical"
+# is value1 less than or equal to value2?
+less <- value1 <= value2
+less
+## [1] TRUE
+class(less)
+## [1] "logical"
+```
+
+It is also possible to transform logical data into numeric data. After
+the transformation from logical to numeric with the as.numeric()
+command, FALSE values equal to 0 and TRUE values equal to 1:
+
+```{r}
+greater_num <- as.numeric(greater)
+sum(greater)
+## [1] 0
+less_num <- as.numeric(less)
+sum(less)
+## [1] 1
+```
+
+Conversely, numeric data can be converted to logical data, with FALSE
+for all values equal to 0 and TRUE for all other values.
+
+```{r}
+x <- 0
+as.logical(x)
+## [1] FALSE
+y <- 5
+as.logical(y)
+## [1] TRUE
+
+```
+
+## Task 11 - Duplicate codes presented by instructor
+
+```{r message=FALSE, warning=FALSE}
+# Use par() code. 
+# Add mfcol() to organize graphs in a matrix of 2 rows and 1 column 
+# Add mai=c() to control margins inside graphs 
+# Add mar=c() to control margins outside graphs 
+par(mfcol=c(2,1),
+    mai=c(1,1,0.3,0.5),
+    mar=c(4,4,0.5,2))
+
+# Present a box plot of all profits 
+boxplot(SalesData$Profits,
+        data=SalesData,
+        horizontal = T,
+        main="Boxplot for Profits",
+xlab="Profits",
+col=c("#DA7B7B","#9D8FF3", "#9D8FF7"),
+border="brown",
+las =1) 
+
+## Add a horizontal line for the mean
+abline(h = mean(SalesData$Profits),
+       col = "#7127D1",
+       lwd = 1,horizontal = T)
+
+text(y=mean(SalesData$Profits),
+     x=0.55,
+     paste("Mean:", round(mean(SalesData$Profits),1)),
+     col = "#7127D1",
+     cex = 0.8,
+     pos = 3,horizontal = T)
+
+# Present a histogram of all profits 
+hist(SalesData$Profits, breaks=30,main = "Profit Graph",
+     col = brewer.pal(12, "Set3"),
+     las = 1) 
+
+abline(v = mean(SalesData$Profits),                       # Add line for mean
+       col = "green",
+       lwd = 1.5)
+text(x = mean(SalesData$Profits) * 1.7,                   # Add text for mean
+     y = mean(SalesData$Profits) * 1.7,
+     paste("Mean =", mean(SalesData$Profits)),
+     col = "black",
+     cex = 0.8,
+     pos = 2)
+
+
+
+abline(v = median(SalesData$Profits),                       # Add line for median
+       col = "blue",
+       lwd = 1.5)
+text(x = median(SalesData$Profits) * 1.7,                   # Add text for mean
+     y = median(SalesData$Profits) * 1.7,
+     paste("Median =", median(SalesData$Profits)),
+     col = "black",
+     cex = 0.8,
+     pos = 2)
+
+```
+
+
+## Task 12 - Profits in the Latin American market
+
+```{r message=FALSE, warning=FALSE}
+
+# Use par() code. 
+# Add mfcol() to organize graphs in a matrix of 2 rows and 1 column 
+# Add mai=c() to control margins inside graphs 
+# Add mar=c() to control margins outside graphs 
+par(mfcol=c(2,1), 
+    mai=c(1, 1, 1, 1), 
+    mar=c(4,4,1.2,2)) 
+
+#Filtering the Latam market value from SalesData
+t13LATAM = dplyr::filter(SalesData, Market=="LATAM")
+
+freq_LATAM = table(t13LATAM$Profits)
+
+#Present a box plot of Latam profits
+boxplot(t13LATAM$Profits,horizontal = T,  main="Boxplot - LATAM Profits",
+        xlab="Data",
+        ylab="Data values",
+        las=1,
+        col=c("lightblue"), boxwex=0.6,
+        staplewex = 1,
+        plot=TRUE)
+
+#Present Histogram of Latam profits
+hist(t13LATAM$Profits,breaks=50,main = "Latam Profit Graph",ylim = c(0,20),
+     xlim = c(-1500,1500),
+     ylab = "Frequecy",
+     xlab = "Latam Profits",
+     las =1,
+     col = brewer.pal(12, "Set3"))
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(freq_LATAM),
+       col = "blue",
+       lwd = 2)
+
+text(x=mean(freq_LATAM),
+     y = 180,
+     paste("Mean:", round(mean(freq_LATAM),1),""),
+     col = "blue",
+     cex = 0.8,
+     pos = 4)
+
+
+```
+
+  
+
+## Task 13 - Table total sales per region in Latin America
+
+```{r message=FALSE, warning=FALSE}
+#Sum for Sales in each region in Africa
+sumLatam = tapply(t13LATAM$Sales,t13LATAM$Region,sum)
+
+#Present the Data
+
+knitr::kable(round(sumLatam),
+             caption = "Total Sales in each region in Latam",
+              col.names = c("Total Sales"),
+             format = "html",
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+```
+
+### Observation
+
+-   The total sales in Central America Region In LATAM is highest which around 64%.
+-  The least sales takes place in Carribbean Region.
+
+## Task 14 - Box plot for the profits per region in the Latin American market
+
+```{r message=FALSE, warning=FALSE,}
+boxplot(t13LATAM$Profits~t13LATAM$Region,
+        main = "Plot for Profits in each region in LATAM",
+        xlab=c("LATAM Region"), 
+        ylab = c("Profits"), 
+        col = brewer.pal(12, "Set3"))
+```
+
+
+### Observation
+
+-  The most outliers are in South America Region which shows it has lot of dispersion compared to another regions.
+
+-  The median for all the region in LATAM region is around the same.
+- The maximum profits was reported from Central America Region
+
+## Task 15 - Table with cumulative frequencies and probabilities
+
+```{r message=FALSE, warning=FALSE}
+
+# Create the vector for Frequency, Cumulative Frequency, Probability, Cumulative Probability
+
+t15prod <- SalesData$Product_SubCategory %>%
+  table()%>%
+  as.data.frame() %>% 
+  rename(Column1 = Freq) %>%
+  mutate(Column2 = cumsum(Column1),
+         Column3 = Column1/nrow(SalesData),
+         Column4 = cumsum(Column3))
+
+
+#Present the table
+knitr::kable(t15prod,
+             digits = 2,
+            caption = "Frequency distribution for Product Category",
+            col.names =  c("Products","Frequency", "Cumulative Frequency", "Probability", "Cumulative Probability"),
+             format = "html",
+             table.attr="style=width: 40%",align = "c")%>%
+kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+kable_classic(full_width = TRUE, position ="center", font_size = 12)
+```
+
+## Task 16 - Probability graphs
+
+```{r message=FALSE, warning=FALSE}
+#Organzing Graphs
+par(mfrow=c (2,2))
+
+
+
+#Calculating the frequency for Product Sub_category
+freq_t15 = table(t15prod$Column1)
+
+#Adding labels for Pie chart
+pieLabels = paste(unique(sort(t15prod$Column1)), sort(freq_t15))
+
+
+#Creating Pie Chart
+pie1 = pie(freq_t15,main = "Pie chart: Frequency", 
+         radius =1,
+           col =  brewer.pal(7, "Paired"),    
+           border = "white",
+    lty = 1,
+    cex=0.4,
+    font = 5)
+
+
+
+#Bar chart for Cumulative frequency
+barFreq = barplot(t15prod$Column2~t15prod$., main = "Bar Graph: Cumulative Frequency",
+                ylab="Product",
+                xlab="Cumulative Frequency", 
+                col =  brewer.pal(7, "Pastel2"),
+                 las = 1,horiz=T,
+                cex.lab = 1, 
+                cex.axis = 0.6,
+                 cex.names = 0.4,
+                 space = 0.4)
+
+
+
+
+#Pie chart for Probability 
+#Calculating the frequency for Product Sub_category
+freq_t15 = table(t15prod$Column3)
+
+#Adding labels for Pie chart
+pieLabels = paste(unique(sort(t15prod$Column3)), sort(freq_t15))
+
+
+#Creating Pie Chart
+pie1 = pie(freq_t15,main = "Pie Chart: Probability", 
+         radius =1,round = 2,
+           col =  brewer.pal(7, "Paired"),    
+           border = "white",
+    lty = 1,
+    cex=0.4,
+    font = 3)
+
+
+
+
+#Bar chart for Cumulative probability
+barFreq = barplot(t15prod$Column4~t15prod$., main = "Bar Plot: Cumulative Probability",
+                ylab="Product",
+                xlab="Cumulative Probability", 
+                col =  brewer.pal(7, "Pastel1"),
+             horiz = T,
+                 las = 1,
+                cex.lab = 1, 
+                cex.axis = 0.6,
+                 cex.names = 0.4,
+                 space = 0.4)
+
+
+```
+
+ 
+## Task 17 - Free graph
+
+```{r message=FALSE, warning=FALSE}
+
+t17piechart  <- table(SalesData$Market)
+
+pieLabel4 = paste(unique(sort(SalesData$Market)), sort(t17piechart))
+
+pie1 = pie(t17piechart, labels = pieLabel4,
+           radius = 0.8,
+           col =  brewer.pal(7, "Pastel2"),
+    border = "white",
+    lty = 1,
+    cex=0.8,
+    font = 3)
+
+legend("topleft",
+       legend = paste(unique(sort(SalesData$Market))),
+       fill = brewer.pal(7, "Pastel2"),
+       border = "white")
+box(col="black")
+
+
+box(col="black")
+```
+
+### Observation
+
+-   The pie chart represent the total sales of all the products sold in the market. 
+There are 5 market regions: Africa, Asia Pacific, Europe, LATAM and USCA.
+-  The highest number of sales is in USCA at 365 (36.5  %) and the lowest number of sales is in Africa at 54 (5% Share) for all the three products (i.e., Technology,Furniture and Office supplies). 
+- The second least sales is in Asia Pacific at 133. In Europe and LATAM, the number of sales at 200 and 248.
+
+# Conclusions
+
+ - Most of the sales takes places at lesser quantities of product, by looking at skewness in histogram and boxplot, and we’ve got a very less sales happening with larger quantities of product.
+ - This often what you would expect from when you have things that start at a particular value and really anything associated with money is usually going to end up looking like this.
+ - Box plots of quantity for each company segment shows that quantity have some association with different company segment, so every segment has different pattern of sales.
+
+
+**The follwing below are my recommentdation and observation for the company:**
+
+1. The most profit making region for sales is Asia Pacific, we should to try maintaing and increase our space there by setting up new avenues.
+
+2. The least profits are in Africa, which is warning sign and we have to moke plans to increase our sales and set up some strategies after speaking with leadership about this
+
+3. The least sales are reported for envelopes, it shows it is not that much demand as before.
+
+4. We are loosing money by selling the Supplies in Product Sub Category, as profits for the that is in negative.
+
+4. The most profit making product is Phones, we should keep investing it and do marketing for that as it generates big profits for company.
+
+**After working on this project, Below are skills that I have learned and improved upon**
+
+1. Problem Solving Capability: I have learned to tackle the problem more logically
+
+2. Attention to Detail: Paying attention to details is necessary, because one mistake in syntax or logic,  could hamper your results
+
+3. Patience: We need a lot a patience, because when I was coding, I have written some code. I was extremely confident in it. I double and triple checked it, and it wasn’t working properly. Then, I have to go back again and view the code from start.
+
+4. Debugging Skills: I have improved my debugging skills by trying to find root cause, whenever code was getting struck and wasn't giving expected results.
+
+
+# Biblography
+
+1.  Braun, W. J., & Murdoch, D. J. (2021). A first course in statistical
+    programming with R. Cambridge University Press.
+
+2.  Chambers, J. M. (2008). Software for data analysis: programming with
+    R (Vol. 2). New York: Springer.
+
+3.  Cotton, R. (2013). Learning R (First edition.). O'Reilly.
+
+4.  Peng, R. D. (2016). R programming for data science (pp. 86-181).
+    Victoria, BC, Canada: Leanpub.
+
+5.  Sackmann, E. (1996). Supported Membranes: Scientific and Practical
+    Applications. Science, 271(5245), 43--48.
+    <doi:10.1126/science.271.5245.43>
+
+6.  Soetewey, A. (2019, December 30). Data types in R. Stats and R.
+    <https://statsandr.com/blog/data-types-in-r/>
+
+# Appendix
+
+An R Markdown file has been attached to this report. The name of the
+file is Narasaiah_ALY6000Project2

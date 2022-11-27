@@ -1,0 +1,791 @@
+<P>
+
+<BR>
+
+<CENTER>
+
+<FONT size=6, color="Blue">
+**M3 Project Report** </FONT>
+
+<FONT size=6, color="Red">
+<BR>**Probability Theory and Introductory Statistics** </FONT>
+
+
+<P>
+
+<FONT size=6, color="Black"> ALY 6010 - 71579 </FONT>
+
+
+
+<P>
+
+<BR>
+<FONT size=5, color="Black"> 
+<BR>
+**Maheswar Raju Narasaiah**
+
+<FONT size=5, color="Black"> 
+Prof: Dr. Dee Chiluiza 
+
+Date:`r format(Sys.time(), '%d %B, %Y')`
+
+</CENTER>
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+2. ANALYSIS 
+</FONT>
+</BR></B>
+
+<P>
+In this section, we will perform analysis on various types of variables to gain insight and address our problems
+
+```{r message=FALSE, warning=FALSE}
+
+#"Library Used for Analysis of Car Sales
+library(magrittr)
+library(knitr)
+library(plotrix)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(CGPfunctions)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+library(kableExtra)
+
+
+
+# Datasets used in Project"
+
+## Sample data
+SData <- read_excel("Data Sets/M3ProjectData.xlsx")
+
+##Removing NA Values from each column using na.omit() function
+S1 = na.omit(SData$`Sample 1`)
+S2 = na.omit(SData$`Sample 2`)
+S3 = na.omit(SData$`Sample 3`)
+S4 = na.omit(SData$`Sample 4`)
+S5 = na.omit(SData$`Sample 5`)
+S6 = na.omit(SData$`Sample 6`)
+
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating a new vector for fething first 15  records
+hSampleData <- head(SData,15)
+
+
+
+#Present the table using kableExta Package
+knitr::kable(hSampleData,
+             caption = "Presenting the First 15 Observation of Data Set",
+             format = "html",
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+  
+
+hSampleData %>%
+  kbl(caption = "Table 2 : Presenting the First 15 Observation of Data Set",
+      format = "html") %>%
+  kable_material_dark(full_width = F, html_font = "Times New Roman") 
+  
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+
+#Population : Basic Descriptive Statistics
+MeanPop = mean(SData$Population)
+MedianPop = median(SData$Population)
+StdPop = sd(SData$Population)
+
+
+##Vector Creation for Population
+vectorPop = c(MeanPop, MedianPop, StdPop  )
+
+
+#Sample 1 : Basic Descriptive Statistics
+MeanS1 = mean(S1)
+MedianS1 = median(S1)
+StdS1 = sd(S1)
+
+
+##Vector Creation for Sample 1
+vectorS1 = c(MeanS1, MedianS1, StdS1 )
+
+
+#Matrix Creation for basic descriptive statistics
+SData_Table = matrix(c(vectorPop,vectorS1), nrow = 2, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+SData_Table_Rounded = round(SData_Table, digits = 2)
+
+##Naming Columns and Row Names in Table
+colnames (SData_Table_Rounded) = c("Mean", "Median", "StDev" )
+
+rownames (SData_Table_Rounded) = c("Population","Sample 1")
+
+
+#Table Creation of of Matrix Using Knitr Package
+SData_Table_Rounded %>% 
+  knitr::kable(caption = "Table 2 : Descriptive Statistics of Populations and Sample 1", format = "html") %>%
+  kable_material_dark(full_width = F, html_font = "Times New Roman") 
+
+
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+
+#Sample 1 : Basic Descriptive Statistics
+MeanS1 = mean(S1)
+StdS1 = sd(S1)
+nS1 = 160
+
+
+#Creating Object for 90% Confidence Interval 
+########################################
+CL90S1= 0.90
+
+#Calculating Alpha Value
+alp90S1= (1-CL90S1)
+
+# Calculating Z value for Margin of Error
+Z90LS1= qnorm(alp90S1/2)
+Z90RS1= qnorm((alp90S1/2)+CL90S1)
+
+#Calculating Margin of Error
+MarErr90S1 = Z90RS1*(StdS1/ sqrt(nS1))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL90S1= MeanS1 - MarErr90S1
+CLU90S1 = MeanS1 + MarErr90S1
+
+#Calculation of C.I. Width for 90
+wd90S1 = CLU90S1 - CLL90S1
+
+#Vector Creation for 90% C.I.
+vectorCI90S1 = c(Z90LS1,Z90RS1, MarErr90S1, CLU90S1, CLL90S1, wd90S1 )
+
+
+#Creating Object for 96% Confidence Interval 
+########################################
+CL96S1= 0.96
+
+#Calculating Alpha Value
+alp96S1= (1-CL96S1)
+
+# Calculating Z value for Margin of Error
+Z96LS1= qnorm(alp96S1/2)
+Z96RS1= qnorm((alp96S1/2)+CL96S1)
+
+#Calculating Margin of Error
+MarErr96S1 = Z96RS1*(StdS1/ sqrt(nS1))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL96S1= MeanS1 - MarErr96S1
+CLU96S1 = MeanS1 + MarErr96S1
+
+#Calculation of C.I. Width for 96
+wd96S1 = CLU96S1 - CLL96S1
+
+#Vector Creation for 96% C.I.
+vectorCI96S1 = c(Z96LS1,Z96RS1, MarErr96S1, CLU96S1, CLL96S1, wd96S1 )
+
+
+
+
+#Creating Object for 99% Confidence Interval 
+########################################
+CL99S1= 0.99
+
+#Calculating Alpha Value
+alp99S1= (1-CL99S1)
+
+# Calculating Z value for Margin of Error
+Z99LS1= qnorm(alp99S1/2)
+Z99RS1= qnorm((alp99S1/2)+CL99S1)
+
+#Calculating Margin of Error
+MarErr99S1 = Z99RS1*(StdS1/ sqrt(nS1))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL99S1= MeanS1 - MarErr99S1
+CLU99S1 = MeanS1 + MarErr99S1
+
+#Calculation of C.I. Width for 99
+wd99S1 = CLU99S1 - CLL99S1
+
+#Vector Creation for 99% C.I.
+vectorCI99S1 = c(Z99LS1,Z99RS1, MarErr99S1, CLU99S1, CLL99S1, wd99S1 )
+
+
+
+#Matrix Creation for compiling all the Confidence Interval Vectors
+S1_Table = matrix(c(vectorCI90S1,vectorCI96S1, vectorCI99S1 ), nrow = 3, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+S1_Table_Rounded = round(S1_Table, digits = 2)
+
+
+##Naming Columns and Row Names in Table
+colnames (S1_Table_Rounded) = c("Z Left Value","Z Right Value",  "Marg of Error", "Upper C.L.","Lower C.L.", "Width of C.I.")
+
+rownames (S1_Table_Rounded) = c("CI 90%","CI 96%", "CI 99%")
+
+#Table Creation of of Matrix Using Knitr Package
+S1_Table_Rounded %>% 
+  knitr::kable(caption = "Table 3: Z Values, Margin of Error, Upper Confidence limit, Lower Confidence Limit and Width of C.I. of Sample 1 with Different Confidence Intervals", format = "html") %>%
+     kable_classic(full_width = F, html_font = "Times New Roman")
+
+
+```
+
+```{r message=FALSE, warning=FALSE}
+
+#Calculate the sample size based on known Std of Sample 1
+
+SizeS190 <- ((Z90RS1^2)*(StdS1^2))/(MarErr90S1^2)
+SizeS196 <- ((Z96RS1^2)*(StdS1^2))/(MarErr96S1^2)
+SizeS199 <- ((Z99RS1^2)*(StdS1^2))/(MarErr99S1^2)
+
+#Vector Creation for size of Sample 1
+SizeS1Data <- c(SizeS190,SizeS196,SizeS199)
+
+#Calculate the sample size based on known Std of Population
+SizeP90 <- ((Z90RS1^2)*(StdPop^2))/(MarErr90S1^2)
+SizeP96 <- ((Z96RS1^2)*(StdPop^2))/(MarErr96S1^2)
+SizeP99 <- ((Z99RS1^2)*(StdPop^2))/(MarErr99S1^2)
+
+#Vector Creation
+SizePData <- c(SizeP90,SizeP96,SizeP99)
+
+
+
+#Matrix Creation
+samplesizematrix <- matrix(data = c(SizeS1Data,SizePData), nrow = 2, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+samplesizematrix_Rounded = round(samplesizematrix, digits = 2)
+
+##Naming Columns and Row Names in Matrix
+colnames(samplesizematrix_Rounded) <- c("CI 90% ","CI 96%", "CI 99%")
+rownames (samplesizematrix_Rounded) = c("Sample 1", "Population")
+
+
+#Table Creation of of Matrix Using Knitr Package
+samplesizematrix_Rounded %>% 
+  knitr::kable(caption = "Table 4: Sample Size based on Confidence Interval") %>%
+  kable_material_dark(full_width = F, html_font = "Times New Roman") 
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+
+MeanS2 = mean(S2)
+sdS2 = sd(S2)
+nS2=23
+
+#Degree of Freedom
+dfS2 = nS2-1
+
+
+#Calculating Confidence for 90 %
+CL90S2 = 0.90
+
+#Calculating p Value
+p90S2= (1+CL90S2)/2
+
+# Calculating t value for Margin of Error using qt()
+T90RS2= qt(p90S2, dfS2)
+T90LS2 = qt(p90S2 - CL90S2, dfS2 )
+
+
+#Calculating Margin of Error
+MarErr90S2 = T90RS2*(sdS2/ sqrt(nS2))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL90S2= MeanS2 - MarErr90S2
+CLU90S2 = MeanS2 + MarErr90S2
+
+#Calculation of C.I. Width for 90%
+wd90S2 = CLU90S2 - CLL90S2
+
+#Vector Creation for 90% C.I.
+vectorCI90S2 = c(T90LS2, T90RS2 , MarErr90S2, CLU90S2, CLL90S2, wd90S2 )
+
+
+
+#Calculating Confidence for 96 %
+CL96S2 = 0.96
+
+#Calculating p Value
+p96S2= (1+CL96S2)/2
+
+# Calculating t value for Margin of Error using qt()
+T96RS2= qt(p96S2, dfS2)
+T96LS2 = qt(p96S2 - CL96S2, dfS2 )
+
+
+#Calculating Margin of Error
+MarErr96S2 = T96RS2*(sdS2/ sqrt(nS2))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL96S2= MeanS2 - MarErr96S2
+CLU96S2 = MeanS2 + MarErr96S2
+
+#Calculation of C.I. Width for 96%
+wd96S2 = CLU96S2 - CLL96S2
+
+#Vector Creation for 96% C.I.
+vectorCI96S2 = c(T96LS2, T96RS2 , MarErr96S2, CLU96S2, CLL96S2, wd96S2 )
+
+
+#Calculating Confidence for 99 %
+CL99S2 = 0.99
+
+#Calculating p Value
+p99S2= (1+CL99S2)/2
+
+# Calculating t value for Margin of Error using qt()
+T99RS2= qt(p99S2, dfS2)
+T99LS2 = qt(p99S2 - CL99S2, dfS2 )
+
+
+#Calculating Margin of Error
+MarErr99S2 = T99RS2*(sdS2/ sqrt(nS2))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL99S2= MeanS2 - MarErr99S2
+CLU99S2 = MeanS2 + MarErr99S2
+
+#Calculation of C.I. Width for 99%
+wd99S2 = CLU99S2 - CLL99S2
+
+#Vector Creation for 99% C.I.
+vectorCI99S2 = c(T99LS2, T99RS2 , MarErr99S2, CLU99S2, CLL99S2, wd99S2 )
+
+
+#Matrix Creation for compiling all the Confidence Interval Vectors
+#########################
+S2_Table = matrix(c(vectorCI90S2,vectorCI96S2, vectorCI99S2 ), nrow = 3, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+S2_Table_Rounded = round(S2_Table, digits = 2)
+
+
+##Naming Columns and Row Names in Table
+colnames (S2_Table_Rounded) = c("T Left Value","T Right Value",  "Marg of Error", "Upper C.L.","Lower C.L.", "Width of C.I.")
+
+rownames (S2_Table_Rounded) = c("CI 90%","CI 96%", "CI 99%")
+
+#Table Creation of of Matrix Using Knitr Package
+S2_Table_Rounded %>% 
+  knitr::kable(caption = "Table 5: T Values, Margin of Error, Upper Confidence limit, Lower Confidence Limit and Width of C.I. of Sample 1 with Different Confidence Intervals", format = "html") %>%
+   kable_classic(full_width = F, html_font = "Times New Roman")
+
+
+
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+#Calculation for sample proportion
+
+nS3 =  1500
+
+Lower1.7S3 = sum(S3 < 1.7)
+Upper1.7S3 = nS3 - Lower1.7S3
+
+p_successS3 = Lower1.7S3/nS3
+p_failureS3 = Upper1.7S3/nS3
+
+
+#Vector Creation for Sample3
+vectorS3 = c(p_successS3, p_failureS3 )
+
+
+#Calculation for sample proportion
+
+nPop =  6556
+
+Lower1.7Pop = sum(SData$Population < 1.7)
+Upper1.7Pop = nPop - Lower1.7Pop
+
+
+
+p_successPop = Lower1.7Pop/nPop
+p_failurePop = Upper1.7Pop/nPop
+
+
+#Vector Creation for Sample3
+vectorPop = c(p_successPop, p_failurePop )
+
+
+
+#Matrix Creation for compiling all the Confidence Interval Vectors
+#########################
+Prop_Table = matrix(c(vectorS3,vectorPop), nrow = 2, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+Prop_Table_Rounded = round(Prop_Table, digits = 2)
+
+
+##Naming Columns and Row Names in Table
+colnames (Prop_Table_Rounded) = c("Success","Failure")
+
+rownames (Prop_Table_Rounded) = c("Sample 3","Population")
+
+#Table Creation of of Matrix Using Knitr Package
+Prop_Table_Rounded %>% 
+  knitr::kable(caption = "Table 6: Proportion of Success and Failure for Sample 3 and Population", format = "html") %>%
+   kable_material_dark(full_width = F, html_font = "Times New Roman") 
+
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating Objects
+nS3 =  1500
+
+#To find the find the count of obseervation lower than 1.7
+Lower1.7S3 = sum(S3 < 1.7)
+Upper1.7S3 = nS3 - Lower1.7S3
+
+#Calculating the proportion for success and failure
+p_successS3 = Lower1.7S3/nS3
+p_failureS3 = Upper1.7S3/nS3
+
+
+#Calculating Confidence for 90 %
+####################################################
+CL90S3 = 0.90
+
+#Calculation of Z Value for 90% CI
+zvalue90S3 = qnorm((1+CL90S3)/2)
+
+#Calculation of Error for 90% CI
+error90S3 = zvalue90S3 * sqrt(((p_successS3*p_failureS3)/nS3))
+
+#Calculation of Upper and Lower Limit for 90% CI
+CLL90S3 = p_successS3 - error90S3
+CLU90S3 = p_successS3 + error90S3
+
+#Calculation of C.I. Width for 90%
+wd90S3 = CLU90S3 - CLL90S3
+
+#Vector Creation for 90% C.I.
+vectorCI90S3 = c(zvalue90S3, error90S3 , CLU90S3, CLL90S3, wd90S3 )
+
+
+#Calculating Confidence for 96 %
+####################################################
+CL96S3 = 0.96
+
+#Calculation of Z Value for 96% CI
+zvalue96S3 = qnorm((1+CL96S3)/2)
+
+#Calculation of Error for 96% CI
+error96S3 = zvalue96S3 * sqrt(((p_successS3*p_failureS3)/nS3))
+
+#Calculation of Upper and Lower Limit for 96% CI
+CLL96S3 = p_successS3 - error96S3
+CLU96S3 = p_successS3 + error96S3
+
+#Calculation of C.I. Width for 96%
+wd96S3 = CLU96S3 - CLL96S3
+
+#Vector Creation for 96% C.I.
+vectorCI96S3 = c(zvalue96S3, error96S3 , CLU96S3, CLL96S3, wd96S3 )
+
+
+#Calculating Confidence for 99 %
+####################################################
+CL99S3 = 0.99
+
+#Calculation of Z Value for 99% CI
+zvalue99S3 = qnorm((1+CL99S3)/2)
+
+#Calculation of Error for 99% CI
+error99S3 = zvalue99S3 * sqrt(((p_successS3*p_failureS3)/nS3))
+
+#Calculation of Upper and Lower Limit for 99% CI
+CLL99S3 = p_successS3 - error99S3
+CLU99S3 = p_successS3 + error99S3
+
+#Calculation of C.I. Width for 99%
+wd99S3 = CLU99S3 - CLL99S3
+
+#Vector Creation for 99% C.I.
+vectorCI99S3 = c(zvalue99S3, error99S3 , CLU99S3, CLL99S3, wd99S3 )
+
+
+#Matrix Creation for compiling all the Confidence Interval Vectors
+#########################
+S3_Table = matrix(c(vectorCI90S3,vectorCI96S3, vectorCI99S3 ), nrow = 3, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+S3_Table_Rounded = round(S3_Table, digits = 2)
+
+
+##Naming Columns and Row Names in Table
+colnames (S3_Table_Rounded) = c("Z Value","Mar of Error", "Upper C.L.","Lower C.L.", "Width of C.I.")
+
+rownames (S3_Table_Rounded) = c("CI 90%","CI 96%", "CI 99%")
+
+#Table Creation of of Matrix Using Knitr Package
+S3_Table_Rounded %>% 
+  knitr::kable(caption = "Table 7: Z Values, Margin of Error, Upper Confidence limit, Lower Confidence Limit and Width of C.I. of Sample 3", format = "html") %>%  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+
+
+
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+
+#Sample 4 : Basic Descriptive Statistics
+nS4 = 150
+VarS4 = var(S4)
+StdS4 = sd(S4)
+
+#Calculating the Variance for Population
+VarPop = var(SData$Population)
+
+#Inline R Code to Print Population and Sample Variance
+paste("The variance of Sample 4 is", round (VarS4, 2)) 
+paste("The variance of Population is", round (VarPop, 2)) 
+
+
+#Creating Object for 90% Confidence Interval for Sample 4 Variance 
+########################################
+CL90S4= 0.90
+
+#Calculating Alpha Value
+alp90S4= (1-CL90S4)
+
+# Calculating Z value for Margin of Error
+Z90LS4= qnorm(alp90S4/2)
+Z90RS4= qnorm((alp90S4/2)+CL90S4)
+
+#Calculating Margin of Error
+MarErr90S4 = Z90RS4*(StdS4/ sqrt(nS4))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL90S4= VarS4 - MarErr90S4
+CLU90S4 = VarS4 + MarErr90S4
+
+#Calculation of C.I. Width for 90
+wd90S4 = CLU90S4 - CLL90S4
+
+#Inline R Code to present all the value calculated for 90% CI
+paste("The -ve Z Value of Sample 4 with 90% Confidence Interval is", round (Z90LS4, 2)) 
+paste("The +ve Z Value of Sample 4 With 90% Confidence Interval is", round (Z90RS4, 2)) 
+paste("The Margin of Error for Sample 4 with 90% Confidence Interval is", round (MarErr90S4, 2)) 
+
+paste("The Confidence Upper Limit for Sample 4 with 90% Confidence Interval is", round (CLU90S4, 2)) 
+
+paste("The Confidence Lower Limit for Sample 4 with 90% Confidence Interval is", round (CLL90S4, 2)) 
+
+paste("The Confidence Interval Width for Sample 4 with 90% Confidence Interval is", round (wd90S4, 2)) 
+
+
+#Creating Object for 96% Confidence Interval for Sample 4 Variance 
+########################################
+CL96S4= 0.96
+
+#Calculating Alpha Value
+alp96S4= (1-CL96S4)
+
+# Calculating Z value for Margin of Error
+Z96LS4= qnorm(alp96S4/2)
+Z96RS4= qnorm((alp96S4/2)+CL96S4)
+
+#Calculating Margin of Error
+MarErr96S4 = Z96RS4*(StdS4/ sqrt(nS4))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL96S4= VarS4 - MarErr96S4
+CLU96S4 = VarS4 + MarErr96S4
+
+#Calculation of C.I. Width for 96
+wd96S4 = CLU96S4 - CLL96S4
+
+#Inline R Code to present all the value calculated for 96% CI
+paste("The -ve Z Value of Sample 4 with 96% Confidence Interval is", round (Z96LS4, 2)) 
+paste("The +ve Z Value of Sample 4 With 96% Confidence Interval is", round (Z96RS4, 2)) 
+paste("The Margin of Error for Sample 4 with 96% Confidence Interval is", round (MarErr96S4, 2)) 
+
+paste("The Confidence Upper Limit for Sample 4 with 96% Confidence Interval is", round (CLU96S4, 2)) 
+
+paste("The Confidence Lower Limit for Sample 4 with 96% Confidence Interval is", round (CLL96S4, 2)) 
+
+paste("The Confidence Interval Width for Sample 4 with 96% Confidence Interval is", round (wd96S4, 2)) 
+
+
+
+#Creating Object for 99% Confidence Interval for Sample 4 Variance 
+########################################
+CL99S4= 0.99
+
+#Calculating Alpha Value
+alp99S4= (1-CL99S4)
+
+# Calculating Z value for Margin of Error
+Z99LS4= qnorm(alp99S4/2)
+Z99RS4= qnorm((alp99S4/2)+CL99S4)
+
+#Calculating Margin of Error
+MarErr99S4 = Z99RS4*(StdS4/ sqrt(nS4))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL99S4= VarS4 - MarErr99S4
+CLU99S4 = VarS4 + MarErr99S4
+
+#Calculation of C.I. Width for 99
+wd99S4 = CLU99S4 - CLL99S4
+
+#Inline R Code to present all the value calculated for 99% CI
+paste("The -ve Z Value of Sample 4 with 99% Confidence Interval is", round (Z99LS4, 2)) 
+paste("The +ve Z Value of Sample 4 With 99% Confidence Interval is", round (Z99RS4, 2)) 
+paste("The Margin of Error for Sample 4 with 99% Confidence Interval is", round (MarErr99S4, 2)) 
+
+paste("The Confidence Upper Limit for Sample 4 with 99% Confidence Interval is", round (CLU99S4, 2)) 
+
+paste("The Confidence Lower Limit for Sample 4 with 99% Confidence Interval is", round (CLL99S4, 2)) 
+
+paste("The Confidence Interval Width for Sample 4 with 99% Confidence Interval is", round (wd99S4, 2)) 
+
+```
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating Objects for Sample 5
+nS5 = 200
+MeanS5 = mean(S5)
+
+#Creating Objects for Population
+MeanPop = mean(SData$Population)
+StdPop = sd(SData$Population)
+
+CL95S5 = 0.95
+
+#Calculating Alpha Value
+alp95S5= (1-CL95S5)
+
+#Z-Test
+ZtestS5 = (MeanS5 - MeanPop)/ (StdPop/sqrt(nS5))
+
+ZtestS5
+
+# Calculating Right Critical value as Z-test is positive
+Z95LS5= qnorm(alp95S5/2)
+Z95RS5= qnorm((alp95S5/2)+CL95S5)
+
+#Checking if Z-Test Value is greater than right critical value
+ZtestS5>Z95RS5
+
+vectorS5= c(CL95S5,Z95LS5, Z95RS5, ZtestS5)
+
+
+
+HypothesisMatrix <- matrix(data = c(vectorS5), nrow = 1,  byrow = TRUE)
+
+##Rounding Digits in Matrix
+HypothesisMatrix_Rounded = round(HypothesisMatrix, digits = 2)
+
+colnames(HypothesisMatrix_Rounded) <- c("Confidence Interval","Left Critical Value","Right Critical Value", "Z-test Value")
+
+#Present the table using kableExta Package
+knitr::kable(HypothesisMatrix_Rounded,
+             caption = "Presenting the First 15 Observation of Data Set",
+             format = "html",
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+
+
+            
+            
+```
+
+```{r message=FALSE, warning=FALSE}
+
+#Calculating P Value from Z-test
+pvalueS5 = round(1-pnorm(ZtestS5), digits = 3)
+
+pvalueS5<alp95S5/2
+
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+
+#Creating Objects for Sample 5
+nS6 = 29
+MeanS6 = mean(S6)
+alphaS6 = 0.01
+
+#Creating Objects for Population
+MeanPop = mean(SData$Population)
+StdPop = sd(SData$Population)
+
+
+#calculating Degree of freedom
+dfS6 = nS6 - 1
+
+#Calculating t-value
+tvalueS6= qt(1-alphaS6, dfS6 )
+
+#Performing the right tailed test based on hypothesis
+ttestS6 = (MeanS6 - MeanPop)/ (StdPop/sqrt(nS6))
+
+ttestS6>tvalueS6
+
+#Calculating P Value from t-test
+pvalueS6 = round(1-pnorm(ttestS6), digits = 3)
+
+
+pvalueS6<alphaS6
+
+```
+
+hello
+

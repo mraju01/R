@@ -1,0 +1,149 @@
+
+**Library and Data Sets Used**
+
+```{r message=FALSE, warning=FALSE}
+
+#Library Used in Project
+library(readxl)
+library(rmarkdown)
+library(magrittr)
+library(dplyr)
+
+#Data used in project
+BusTime <- read_excel("~/Desktop/Intro To Analytics - ALY 6000/ALY 6010 - Project/Data Sets/Bus_Time_Capture.xlsx")
+
+
+
+#Creating Object for Speed
+Speed = BusTime$Speed
+
+#Creating for basic statistics
+meanSpeed = mean(Speed)
+sdSpeed = sd(Speed)
+n = 36
+
+```
+
+**Plotting of Density Plot with 90% Confidence Interval**
+```{r message=FALSE, warning=FALSE}
+
+
+#Plotting the Density Plot
+DensitySpeed = density(Speed)
+
+plot(DensitySpeed, main = "Density Plot of Population Mean with 90% Confidence Interval")
+
+# Fill area
+polygon(DensitySpeed, col = rgb(0.78, 0.89, 1, alpha = 0.6))
+
+
+#Creating Object for 90% Confidence Interval 
+CL90= 0.90
+alp90= (1-CL90)
+
+# Calculating Z value for Margin of Error
+Z90L= qnorm(alp90/2)
+
+#Calculating Margin of Error
+MarErr = Z90L*(sdSpeed/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL= meanSpeed + MarErr
+CLU = meanSpeed - MarErr
+
+#Plotting the Confidence Interval: Upper and Lower Limit on density plot
+abline(v=CLL, col = "Blue")
+abline(v=CLU, col = "Blue")
+
+#Adding text for vertical lines"
+text(x=CLL - 0.05, y=0.6,
+     paste("C.I 90% Lower Limit =",round(CLL,2)),
+     srt=90, cex=0.8)
+
+#Adding text for vertical lines"
+text(x=CLU + 0.05, y=0.6,
+     paste("C.I 90% Upper Limit =",round(CLU,2)),
+     srt=90, cex=0.8)
+```
+
+
+**Plotting of Density Plot with 94% Confidence Interval**
+```{r message=FALSE, warning=FALSE}
+
+#Plotting the Density Plot
+DensitySpeed = density(Speed)
+
+plot(DensitySpeed, main = "Density Plot of Population Mean with 94% Confidence Interval")
+
+# Fill area
+polygon(DensitySpeed, col = rgb(0.5, 0.8, 0.157, alpha = 0.6))
+#Creating Object for 94% Confidence Interval 
+CL94= 0.94
+alp94= (1-CL94)
+
+# Calculating Z value for Margin of Error
+Z94L= qnorm(alp94/2)
+
+#Calculating Margin of Error
+MarErr = Z94L*(sdSpeed/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL= meanSpeed + MarErr
+CLU = meanSpeed - MarErr
+
+#Plotting the Confidence Interval: Upper and Lower Limit on density plot
+abline(v=CLL, col = "Red")
+abline(v=CLU, col = "Red")
+
+#Adding text for vertical lines"
+text(x=CLL - 0.05, y=0.6,
+     paste("C.I 94% Lower Limit =",round(CLL,2)),
+     srt=90, cex=0.8)
+
+#Adding text for vertical lines"
+text(x=CLU + 0.05, y=0.6,
+     paste("C.I 94% Upper Limit =",round(CLU,2)),
+     srt=90, cex=0.8)
+```
+
+**Plotting of Density Plot with 98% Confidence Interval**
+```{r message=FALSE, warning=FALSE}
+
+#Plotting the Density Plot
+DensitySpeed = density(Speed)
+
+plot(DensitySpeed, main = "Density Plot of Population Mean with 98% Confidence Interval")
+
+# Fill area
+polygon(DensitySpeed, col = rgb(0.2, 0.7, 0.6, alpha = 0.6))
+
+#Creating Object for 98% Confidence Interval 
+CL98= 0.98
+alp98= (1-CL98)
+
+# Calculating Z value for Margin of Error
+Z98L= qnorm(alp98/2)
+
+#Calculating Margin of Error
+MarErr = Z98L*(sdSpeed/ sqrt(n))
+
+#Creating Objects for Confidence Interval: Upper and Lower Limit
+CLL= meanSpeed + MarErr
+CLU = meanSpeed - MarErr
+
+#Plotting the Confidence Interval: Upper and Lower Limit on density plot
+abline(v=CLL, col = "Yellow")
+abline(v=CLU, col = "Yellow")
+
+#Adding text for vertical lines"
+text(x=CLL - 0.05, y=0.6,
+     paste("C.I 98% Lower Limit =",round(CLL,2)),
+     srt=90, cex=0.8)
+
+#Adding text for vertical lines"
+text(x=CLU + 0.05, y=0.6,
+     paste("C.I 98% Upper Limit =",round(CLU,2)),
+     srt=90, cex=0.8)
+
+```
+

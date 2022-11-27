@@ -1,0 +1,47 @@
+---
+title: "Class 6"
+author: "Maheswar Raju Narasaiah"
+date: "2022-10-24"
+output: html_document
+---
+
+
+## R Markdown
+```{r}
+#Library Used in Project
+library(magrittr)
+library(knitr)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+library(readxl)
+Continuous_data02 <- read_excel("Data Sets/Continuous_data02.xlsx")
+
+dataC = Continuous_data02$C
+meanC = mean(dataC)
+sdC = sd(dataC)
+
+densityC1 = density(dataC) %>%
+  plot()
+
+normalC = (dataC - meanC)/sdC
+
+densityC1 = density(normalC) %>%
+  plot()
+  
+  
+
+
+CL = 0.90
+qnorm(0.95)
+
+
+
+```
+
+

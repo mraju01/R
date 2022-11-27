@@ -1,0 +1,222 @@
+---
+title: "M2 Discussion"
+author: "Maheswar Raju Narasaiah"
+date: "2022-09-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+# Library Used in Project
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(readxl)
+library(datasets)
+
+# Datasets used in Project
+Discussion2_Sales <- read_excel("Data Sets/Discussion2_Sales.xlsx")
+```
+
+```{r warning=FALSE}
+# Library Used in Project
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(readxl)
+
+# Datasets used in Project
+Discussion2_Sales <- read_excel("Data Sets/Discussion2_Sales.xlsx")
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+```{r}
+summary(Discussion2_Sales$Price)
+```
+
+```{r}
+# Datasets used in Project
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(readxl)
+
+#Descriptive Statistics
+Discussion2_Sales <- read_excel("Data Sets/Discussion2_Sales.xlsx")
+MeanQuantity = mean(Discussion2_Sales$Quantity)
+StdQuantity = sd(Discussion2_Sales$Quantity)
+MedianQuantity = median(Discussion2_Sales$Quantity)
+MinQuantity = min(Discussion2_Sales$Quantity)
+MaxQuantity = max(Discussion2_Sales$Quantity)
+RangeQuantity = max(Discussion2_Sales$Quantity)-min(Discussion2_Sales$Quantity)
+quantile62Quantity = quantile(Discussion2_Sales$Quantity, 0.62)
+
+vectorQuantity = c(MeanQuantity, StdQuantity, MedianQuantity, MinQuantity, MaxQuantity, RangeQuantity, quantile62Quantity)
+
+Quantity_Table = matrix(c(vectorQuantity), nrow = 1, byrow = TRUE)
+
+Quantity_Table_Rounded = round(Quantity_Table, digits = 2)
+
+colnames (Quantity_Table_Rounded) = c("Mean",  "StDev", "Median", "Min Value", "Max Value", "Range","62th quantile" )
+rownames (Quantity_Table_Rounded) = c("Quantity")
+
+# Note: Use R markdown to view the below results
+
+knitr:::kable(Quantity_Table_Rounded,
+              align = "c", 
+              digits = 2,
+              format = "html",
+              table.attr = "style='width:85%;'")
+
+```
+
+```{r table, echo=FALSE}
+library(DT)
+
+
+DT::datatable(Quantity_Table_Rounded, )
+```
+
+## Histogram of Quantity
+```{r echo=FALSE, warning=FALSE}
+#Library Used in Project
+library(magrittr)
+library(knitr)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+
+# Datasets used in Project
+Discussion2_Sales <- read_excel("Data Sets/Discussion2_Sales.xlsx")
+
+#Descriptive Statistics
+MeanQuantity = mean(Discussion2_Sales$Quantity)
+StdQuantity = sd(Discussion2_Sales$Quantity)
+MedianQuantity = median(Discussion2_Sales$Quantity)
+MinQuantity = min(Discussion2_Sales$Quantity)
+MaxQuantity = max(Discussion2_Sales$Quantity)
+RangeQuantity = max(Discussion2_Sales$Quantity)-min(Discussion2_Sales$Quantity)
+quantile62Quantity = quantile(Discussion2_Sales$Quantity, 0.62)
+
+#Vector Creation for Matrix
+vectorQuantity = c(MeanQuantity, StdQuantity, MedianQuantity, MinQuantity, MaxQuantity, RangeQuantity, quantile62Quantity)
+##Matrix Creation
+Quantity_Table = matrix(c(vectorQuantity), nrow = 1, byrow = TRUE)
+##Rounding Digits in Matrix
+Quantity_Table_Rounded = round(Quantity_Table, digits = 2)
+##Naming Columns and Row Names
+colnames (Quantity_Table_Rounded) = c("Mean",  "StDev", "Median", "Min Value", "Max Value", "Range","62th quantile" )
+rownames (Quantity_Table_Rounded) = c("Quantity")
+
+#Table Creation Using DT Package
+DT::datatable(Quantity_Table_Rounded, )
+
+# Histogram
+hist(Discussion2_Sales$Quantity,
+breaks = 15 ,
+col = brewer.pal(12, "Set3"),
+main = paste("Histogram for Quantity
+(Maheswar Raju Narasaiah)"),
+xlab = paste("Quantity"), 
+ylim = c(0,200),
+xlim = c(0,15),
+labels = T)
+
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(Discussion2_Sales$Quantity),
+       col = "blue",
+       lwd = 2)
+
+text(x=mean(Discussion2_Sales$Quantity),
+     y = 180,
+     paste("Mean:", round(mean(Discussion2_Sales$Quantity),1),""),
+     col = "blue",
+     cex = 0.8,
+     pos = 4)
+
+## Vertical line and text for the median for Histogram
+abline(v = median(Discussion2_Sales$Quantity),
+       col = "red",
+       lwd = 2)
+
+text(x=median(Discussion2_Sales$Quantity),
+     y = 180,
+     paste("Median:", round(median(Discussion2_Sales$Quantity),1),""),
+     col = "red",
+     cex = 0.8,
+     pos = 2)
+
+## Add horizontal dotted grey lines for Histogram
+abline(h = seq(0,350,50), col = "grey", lty="dotted")
+
+# Box Plot
+boxplot(Discussion2_Sales$Quantity~Discussion2_Sales$Company_Segment,
+data=Discussion2_Sales,
+main="Boxplot: Quantity For Each Company Segment
+(Maheswar Raju Narasaiah)",
+xlab="Company Segment",
+ylab="Quantity",
+ylim=c(0,15),
+col=c("#3BBD59", "#DA7B7B","#9D8FF3"),
+border="brown"
+)
+
+## Add a horizontal line for the mean
+abline(h = mean(Discussion2_Sales$Quantity),
+       col = "#7127D1",
+       lwd = 1)
+
+text(y=mean(Discussion2_Sales$Quantity),
+     x=0.55,
+     paste("Mean:", round(mean(Discussion2_Sales$Quantity),1)),
+     col = "#7127D1",
+     cex = 0.8,
+     pos = 3)
+
+```
+
+## Boxplot of Quantity
+```{r, echo=FALSE}
+library(plyr)    
+library(ggplot2)
+
+boxplot(Discussion2_Sales$Quantity, horizontal = TRUE)
+
+GenderPlot1 = ggplot(Discussion2_Sales, aes(x = Discussion2_Sales$Company_Segment, y = Discussion2_Sales$Quantity)) + geom_boxplot() 
+GenderPlot1
+
+boxplot(Discussion2_Sales$Quantity~Discussion2_Sales$Company_Segment,
+data=Discussion2_Sales,
+main="Different Boxplots For Each Company Segment",
+xlab="Company Segment",
+ylab="Quantity",
+col="orange",
+border="brown"
+)
+
+
+```
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

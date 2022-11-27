@@ -1,0 +1,121 @@
+---
+title: "M4 Discussion"
+author: "Maheswar Raju Narasaiah"
+date: "2022-10-15"
+output: html_document
+---
+
+
+
+```{r}
+#Library Used in Project
+library(magrittr)
+library(knitr)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+
+# Datasets used in Project
+WineData <- read_excel("Data Sets/Discussion4_wine.xlsx")
+
+#Creating a new vector for filtered Aurora data from WineData
+Aurora = dplyr::filter(WineData, Wine_type=="Aurora")
+
+MeanMalicAcidAurora = mean(Aurora$Malic_acid)
+StdMalicAcidAurora = sd(Aurora$Malic_acid)
+MedianMalicAcidAurora = median(Aurora$Malic_acid)
+MinMalicAcidAurora = min(Aurora$Malic_acid)
+MaxMalicAcidAurora = max(Aurora$Malic_acid)
+RangeMalicAcidAurora = max(Aurora$Malic_acid)-min(WineData$Malic_acid)
+quantile1stMalicAcidAurora = quantile(Aurora$Malic_acid, 0.25)
+quantile3rdMalicAcidAurora = quantile(Aurora$Malic_acid, 0.75)
+
+
+#Creating a new vector for filtered Rainbow data from WineData
+
+Rainbow = dplyr::filter(WineData, Wine_type=="Rainbow")
+
+MeanMalicAcidRainbow = mean(Rainbow$Malic_acid)
+StdMalicAcidRainbow = sd(Rainbow$Malic_acid)
+MedianMalicAcidRainbow = median(Rainbow$Malic_acid)
+MinMalicAcidRainbow = min(Rainbow$Malic_acid)
+MaxMalicAcidRainbow = max(Rainbow$Malic_acid)
+RangeMalicAcidRainbow = max(Rainbow$Malic_acid)-min(WineData$Malic_acid)
+quantile1stMalicAcidRainbow = quantile(Rainbow$Malic_acid, 0.25)
+quantile3rdMalicAcidRainbow = quantile(Rainbow$Malic_acid, 0.75)
+
+#Creating a new vector for filtered Sunset data from WineData
+
+Sunset = dplyr::filter(WineData, Wine_type=="Sunset")
+
+#Descriptive Statistics
+MeanMalicAcidSunset = mean(Sunset$Malic_acid)
+StdMalicAcidSunset = sd(Sunset$Malic_acid)
+MedianMalicAcidSunset = median(Sunset$Malic_acid)
+MinMalicAcidSunset = min(Sunset$Malic_acid)
+MaxMalicAcidSunset = max(Sunset$Malic_acid)
+RangeMalicAcidSunset = max(Sunset$Malic_acid)-min(WineData$Malic_acid)
+quantile1stMalicAcidSunset = quantile(Sunset$Malic_acid, 0.25)
+quantile3rdMalicAcidSunset = quantile(Sunset$Malic_acid, 0.75)
+ 
+
+
+#Vector Creation for Aurora Matrix
+vectorAurora = c(MeanMalicAcidAurora, StdMalicAcidAurora, MedianMalicAcidAurora, MinMalicAcidAurora, MaxMalicAcidAurora, RangeMalicAcidAurora, quantile1stMalicAcidAurora,quantile3rdMalicAcidAurora )
+
+
+#Vector Creation for Rainbow Matrix
+vectorRainbow = c(MeanMalicAcidRainbow, StdMalicAcidRainbow, MedianMalicAcidRainbow, MinMalicAcidRainbow, MaxMalicAcidRainbow, RangeMalicAcidRainbow, quantile1stMalicAcidRainbow,quantile3rdMalicAcidRainbow)
+
+#Vector Creation for Sunset Matrix
+vectorSunset = c(MeanMalicAcidSunset, StdMalicAcidSunset, MedianMalicAcidSunset, MinMalicAcidSunset, MaxMalicAcidSunset, RangeMalicAcidSunset, quantile1stMalicAcidSunset,quantile3rdMalicAcidSunset )
+
+##Matrix Creation
+Wine_Table = matrix(c(vectorAurora,vectorRainbow, vectorSunset ), nrow = 3, byrow = TRUE)
+
+##Rounding Digits in Matrix
+Wine_Table_Rounded = round(Wine_Table, digits = 2)
+##Naming Columns and Row Names
+colnames (Wine_Table_Rounded) = c("Mean",  "StDev", "Median", "Min Value", "Max Value", "Range","1st quantile", "3rd quantile" )
+
+rownames (Wine_Table_Rounded) = c("Aurora","Rainbow", "Sunset")
+
+#Table Creation Using DT Package
+DT::datatable(Wine_Table_Rounded, )
+
+# Box Plot
+boxplot(WineData$Malic_acid~WineData$Wine_type,
+data=Discussion2_Sales,
+main="Boxplot: Malic Acid For Each Wine Type",
+xlab="Wine Type",
+ylab="Malic Acid",
+col=c("#3BBD59", "#DA7B7B","#9D8FF3"),
+border="brown"
+)
+
+## Add a horizontal line for the mean
+abline(h = mean(WineData$Malic_acid),
+       col = "#7127D1",
+       lwd = 1)
+
+text(y=mean(WineData$Malic_acid),
+     x=0.55,
+     paste("Mean:", round(mean(WineData$Malic_acid),2)),
+     col = "#7127D1",
+     cex = 0.8,
+     pos = 3.5)
+
+
+hist(Aurora$Malic_acid)
+
+hist(Rainbow$Malic_acid)
+
+hist(Sunset$Malic_acid)
+
+```
+

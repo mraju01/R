@@ -1,0 +1,121 @@
+---
+title: "M4"
+author: "Maheswar Raju Narasaiah"
+date: "2022-10-17"
+output: html_document
+---
+
+<P>
+
+<BR>
+
+<CENTER>
+
+<FONT size=5, color="A11515"> **Maheswar Raju Narasaiah**
+<BR>**Northeastern University** </FONT>
+
+<P>
+
+<FONT size=5, color="Black"> <BR>Maheswar Raju Narasaiah <BR> Date:
+`r format(Sys.time(), '%d %B, %Y')`
+
+<P>
+
+<FONT size=6, color="Black"> Continous Data Report </FONT>
+
+</CENTER>
+
+
+```{r message=FALSE, warning=FALSE}
+
+#Library Used in Project
+library(magrittr)
+library(knitr)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+library(kableExtra)
+
+
+# Datasets used in Project
+CData <- read_excel("Data Sets/Continuous_data02.xlsx")
+```
+
+
+```{r}
+hist(CData$A, 
+     breaks = 15 ,
+col = brewer.pal(12, "Set3"), 
+ylim = c(0,50),main = paste("Histogram"))
+
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(CData$A),
+       col = "blue",
+       lwd = 2)
+
+text(x=mean(CData$A),
+     y = 30,
+     paste("Mean:", round(mean(CData$A),1),""),
+     col = "blue",
+     cex = 0.8,
+     pos = 4)
+
+## Vertical line and text for the median for Histogram
+abline(v = median(CData$A),
+       col = "red",
+       lwd = 2)
+
+text(x=median(CData$A),
+     y = 30,
+     paste("Median:", round(median(CData$A),1),""),
+     col = "red",
+     cex = 0.8,
+     pos = 2)
+
+```
+
+```{r message=FALSE, warning=FALSE}
+
+par(mfcol=c(3,1))
+
+boxplot(CData$A, horizontal = T)
+boxplot(CData$B, horizontal = T)
+boxplot(CData$C, horizontal = T)
+
+
+par(mfcol=c(1,3))
+
+boxplot(CData$A)
+boxplot(CData$B)
+boxplot(CData$C)
+
+
+```
+
+```{r}
+
+minA = min(CData$A)
+max = max(CData$A)
+meanA = mean(CData$A)
+medianA = median(CData$A)
+sdA = sd(CData$A)
+
+z350 = (350-meanA)/sdA
+
+
+DensityA = density(CData$A)
+
+plot(DensityA)
+
+
+pnorm(z350)
+
+
+```
+

@@ -1,0 +1,17 @@
+
+
+```{r message=FALSE, warning=FALSE }
+
+# Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfcol=c(2,1))
+# Add mai=c() to control margins inside charts 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Present Histogram
+hist(OfficeSales$ShippingCost_Product,breaks = 30,
+col = brewer.pal(12, "Set3"),
+main = paste("Histogram for Shipping Cost"),
+xlab = paste("Shipping Cost"), 
+ylim = c(0,400),
+xlim = c(0,100),
+las = 1)

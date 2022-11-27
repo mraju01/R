@@ -1,0 +1,650 @@
+<P>
+
+<BR>
+
+<CENTER>
+
+<FONT size=6, color="Blue">
+**Analytics Report of Cars Sales From 1998  to 2019 In India** </FONT>
+
+<FONT size=6, color="Red">
+<BR>**Probability Theory and Introductory Statistics** </FONT>
+
+
+<P>
+
+<FONT size=6, color="Black"> ALY 6010 - 71579 </FONT>
+
+
+
+<P>
+
+<BR>
+<FONT size=5, color="Black"> 
+<BR>
+**Maheswar Raju Narasaiah**
+
+<FONT size=5, color="Black"> 
+Prof: Dr. Dee Chiluiza 
+
+Date:`r format(Sys.time(), '%d %B, %Y')`
+
+</CENTER>
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+1. INTRODUCTION
+</FONT>
+</BR></B>
+
+
+***1.1. Industry Statistics Of The Automobile Industry In India***
+
+
+Today, the automobile industry is the most profitable manufacturing sector. Passenger car sales in India increased 38% year on year in June 2021-22 compared to the same period the previous year, owing to an increase in disposable income in both the rural and urban sectors, as well as easy financing provided by all financial institutions. With a slew of new entrants and others planning to enter the Indian market, such as Porsche, Bentley, Audi, and BMW, competition is heating up. Understanding and developing a personality for their brands is one factor that could help businesses market their products.
+
+
+
+- The domestic Indian passenger car market (including utility vehicles) totaled 900,000 units in fiscal year 2022 (a 10% CAGR over the previous four years), while exports totaled 130,000 million units (a 68% CAGR over the previous four years).
+- The Indian two-wheeler industry is one of the world's largest, and it is expected to expand rapidly in the future.
+- This phenomenal automotive growth is being driven by the success of the Indian auto component industry. The industry, which is currently worth USD 6.7 billion, is expected to nearly triple in less than eight years, reaching USD 17 billion by 2025.
+
+India is one of the world's most profitable car markets, attracting automakers from all over. The recent expansion of India's luxury car market is about much more than market dynamics in a specific car segment. It reflects the country's affluent class's changing lifestyle. Despite the fact that the base is still quite low, the Indian luxury car market grew at an impressive compound annual growth rate of approximately 25% between 2005 and 2009, accounting for around 1% of the total new car market.
+
+According to the Capgemini and Merrill Lynch Wealth Management Report on World Wealth, most countries' HNI (High Net-Worth Individuals) numbers have increased. While India has more than doubled it - more than any other country in the world - (Shende, 2014).
+India had 84,000 HNIs in 2018-19, which increased by 50.9% to 1, 26,700 HNI Indians in 2020.
+The rising economy and the IT boom are two major factors propelling the luxury car market forward. People have more disposable income as the economy improves, which they are spending on luxurious and high-end automobiles. Young people are earning higher wages as the IT industry grows, allowing them to enjoy a fun ride in their favorite luxury car.
+
+<P>
+Apart from that, the easy availability of loans and good financing schemes has pushed young and middle-class people towards expensive and luxurious automobiles (Ramita, 2013). Even the Indian government is encouraging the entry of luxury vehicles by enacting policies such as relaxing equity regulations and lowering automobile import tariffs.
+These policies have lowered the prices of high-end luxury vehicles.
+
+
+***1.2. Description and Importance Of Discrete Probability Distributions.***
+
+A probability distribution is a list of all possible outcomes of a random variable, along with the probability values that go with them. A probability distribution assigns a probability to each outcome of a random variable or process.
+
+A discrete distribution is a statistical data distribution in which the values are discrete. Discrete values are countable non-negative integers such as 1, 10, 15, and so on.
+
+Consider the following scenario: you are keeping track of the number of people who enter a store at any given time. The values must be integers that are countable, finite, and non-negative. It is not possible to enter a store with 0.5 people, nor can one enter a store with a negative number of people. As a result, when represented on a distribution plot, the value distribution would be discrete.
+
+The probability distribution will show the likelihood of a certain number of people walking into the store at any given time. Without conducting any quantitative analysis, we can conclude that at any given hour, between 9 and 17 people will enter the store.
+
+***1.3. Description and Importance Of Continuous  Probability Distributions.***
+
+The range of possible values for continuous probability distributions is infinite and uncountable. The probabilities of constant random variables are defined by the area beneath the curve of the density function of probabilities.
+
+Based on sampled data, the probability density function (PDF) calculates the likelihood of a continuously random variable taking a particular value and measuring the area beneath the PDF. Despite the fact that the absolute likelihood of a random variable taking a particular value is 0 (due to the infinite number of possible values), the PDF at two distinct samples is used to infer the likelihood of a random variable.
+
+Assume you want to determine the height distribution of a specific population. You can take a sample and measure their heights. However, none of the recorded individuals will have an exact height.
+
+When the height distribution is calculated, the proportion of individuals being exactly 180cm is zero. That is, the chances of measuring someone's height to be exactly 180cm with infinite precision are nil. The likelihood that an individual is taller than 180cm, on the other hand, can be calculated.
+
+You can also calculate the likelihood that an individual is shorter than 180cm. As a result, the inferred probabilities can be used to compute a value for a range, say 179.9cm to 180.1cm.
+
+
+The continuous distribution clearly shows that the mean is 170cm; however, the range of possible values is infinite. As a result, calculating the probability of any given random variable requires drawing a line between two ranges, as illustrated above.
+
+
+***1.4. About the Data Set***
+
+In this report, I have examined sales data of car market for year 1998 - 2019, which includes details like efficiency, price, kilometers, and seats of the car sold
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+2. ANALYSIS 
+</FONT>
+</BR></B>
+
+
+<P>
+In this section, we will perform analysis on various types of variables to gain insight and address our problems
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#"Library Used for Analysis of Car Sales
+library(magrittr)
+library(knitr)
+library(plotrix)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(CGPfunctions)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+library(kableExtra)
+
+
+
+# Datasets used in Project"
+CarSales <- read_excel("~/Desktop/Intro To Analytics - ALY 6000/ALY 6010 - Project/Data Sets/M1data_carsales.xlsx")
+
+```
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.1. Basic descriptive statistics of Efficiency, Power_bhp, Price, Kilometers, and Seats 
+</FONT>
+</BR></B>
+
+The table below shows the descriptive statistics of Efficiency, Power_bhp, Price, Kilometers, and Seats for Car Sales.
+
+```{r message=FALSE, warning=FALSE}
+
+#"Creating table for showing descriptive statistics using psych::describe for Efficiency,Power_bhp,Price,Kilometers and Seats
+
+CarSales %>%
+  dplyr::select(Efficiency,Power_bhp,Price,Km,Seats) %>%
+  psych::describe() %>%
+  t() %>%
+  round(2) %>%
+  knitr::kable()%>%
+kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+kable_classic(full_width = TRUE, position ="center", font_size = 12)
+
+
+```
+***Observation***
+
+<P>
+
+
+1. The table shows that in total 4949 cars were sold between the year 1998 to 2019 after looking at the no. of observation made.
+2. This shows that average price of cars is 8383.22
+3. Most people prefer to buy 5 seater cars which is more spacious.
+4. The table shows that the price and kilometers have large dispersion as range and standard deviation of them very high when compared to it's mean.
+5. Table also shows that efficiency has  a negative kurtosis value which indicates that the distribution has lighter tails than the normal distribution. means it has less in the tails than the normal distribution.
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.2. Bar Plot of Location and Pie Chart for Fuel Type
+</FONT>
+</BR></B>
+
+
+
+```{r message=FALSE, warning=FALSE}
+
+# "Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfcol=c(1,2))
+
+# Used code mai=c() to control margins inside charts 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Table Creation of Lacation for Bar Graph
+tbar3.1 = table(CarSales$Location)
+
+plotMarket = barplot(tbar3.1, main="Bar Plot for Market",
+                 ylab = NA,
+                 xlab = "Frequency",
+                col = brewer.pal(15, "Set1"),
+                border = "black",
+                xlim = c(0,800),
+                 las = 1.5,
+                cex.lab = 1, 
+                cex.axis = 1,
+                 cex.names = 0.6,
+                 horiz = T,
+                 space = 0.4)
+
+#Adding Lables
+text(x=tbar3.1, 
+     plotMarket, 
+     tbar3.1, 
+     cex=0.8, 
+     pos = 4)
+
+
+
+#Table Creation of Fuel Type for Pie Chart
+
+t17piechart  <- table(CarSales$FuelType)
+
+#Labels Creation for Pie Chart
+pieLabel4 = paste( unique(sort(CarSales$FuelType)),"(",round(100 * t17piechart/sum(t17piechart), 2),"%",")")
+
+
+# Plot the pie chart for Fuel Type.
+pie1 = pie(t17piechart, labels = pieLabel4,
+           radius = 0.6,
+           col =  brewer.pal(7, "Dark2"),
+    border = "white",
+    lty = 1,
+    cex=0.8,
+    font = 2,
+    clockwise = T)
+
+# Legends Display"
+legend("bottomleft",
+       legend = paste(unique(sort(CarSales$FuelType))),
+       fill = brewer.pal(7, "Dark2"),
+       border = "white")
+
+
+```
+
+***Observation***
+
+<P>
+
+1. Pie Chart shows that car which requires energy source of Gasoline is sold and, have almost 51% share with neck to neck competing with Diesel at 47%
+2. CNG and LPG cars are least preferable fuel type almost only 0.6 % and 1.11 % respectively only. We need to focus to increase it's sales by marketing in all the platforms.
+3. By observing the bar plot, it clearly showcases that Mumbai is where our customers buys most cars are sold with 677 cars during this period.
+4. It would get good idea to send a team of sales representative from Mumbai office to examine the other location where our car sales are least like Ahmedabad and Bangalore to replicate some strategies which they use in their offices which help in boost our sales.
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.3. Table of Owner with Corresponding Frequencies,Cumulative Frequencies, Percentages, and Cumulative Percentages
+</FONT>
+</BR></B>
+
+
+```{r message=FALSE, warning=FALSE}
+# "Create the vector for Frequency, Cumulative Frequency, Percentage, Cumulative Percentage
+
+tcar <- CarSales$Owner %>%
+  table()%>%
+  as.data.frame() %>% 
+  rename(Column1 = Freq) %>%
+  mutate(Column2 = cumsum(Column1),
+         Column3 = (Column1/nrow(CarSales))*100,
+         Column4 = cumsum(Column3))
+
+
+#Present the table"
+knitr::kable(tcar,
+             digits = 2,
+            caption = "Frequency distribution for Owner Category",
+            col.names =  c("Owner","Frequency", "Cumulative Frequency", "Percentage", "Cumulative Percentage"),
+             format = "html",
+             table.attr="style=width: 40%",align = "c")%>%
+kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+kable_classic(full_width = TRUE, position ="center", font_size = 12)
+
+```
+***Observation***
+
+<P>
+
+1.  The table shows that most of consumers prefer to buy first hand cars, which helps understand consumer behavior.
+2. The frequency at first-hand cars are getting sold shows that it should be our USP.
+3. We need to implement new ways where we can improve the sales of our Third-hand cars because right now it percentage share amongts four is only 6.67% which is even lesser than fourth-hand cards which indicates something is not working is our current strategy.
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.4. Density Plot of Kilometers
+</FONT>
+</BR></B>
+
+
+
+```{r message=FALSE, warning=FALSE}
+
+
+#"To Remove Scientific Notation
+options(scipen=999)
+
+# Margins area
+par(oma=c(2,2,2,2)) # all sides have 3 lines of space
+#Selecting Quantity for Density
+Kilometers = CarSales$Km
+
+#Creating object for vertical line
+meanKilometers = mean(Kilometers)
+sdKilometers = sd(Kilometers)
+
+zscore_pos2.4 = (((2.4)*sdKilometers)+ meanKilometers)
+
+zscore_neg3.1 = ((sdKilometers*(-3.1)) + meanKilometers)
+
+
+# Density estimation
+densityKilometers = density(Kilometers) 
+
+# Density Plot
+plot(densityKilometers, adjust = 2, main = "Density Plot for Kilometers", las= 1.5, ylab= NA, xlim=c(-40000, 160000))
+
+# Fill area
+polygon(densityKilometers, col = rgb(0.78, 0.89, 1, alpha = 0.6))
+
+#Vertical Lines
+abline(v=meanKilometers, col = "Red")
+abline(v=zscore_pos2.4, col = "Blue")
+abline(v=zscore_neg3.1, col = "Yellow")
+
+#Adding text for vertical lines"
+text(x=meanKilometers - 5000, y=0.000008,
+     paste("Mean =",round(meanKilometers,2)),
+     srt=90, cex=0.8)
+
+text(x=zscore_pos2.4- 5000, y= 0.000008,
+     paste("ZScore (+2.4) =",round(zscore_pos2.4,2)),
+     srt=90, cex=0.8)
+
+text(x=zscore_neg3.1- 5000, y=0.000008,
+     paste("ZScore (-3.1) = ",round(zscore_neg3.1,2)),
+     srt=90, cex=0.8)
+
+
+
+
+  
+
+```
+
+***Observation***
+
+<P>
+
+1. Density plot clearly indicates that cars which almost travelled around 55k to 60k Kilometers are most sold ones .
+2. Most of the cars sales take place at lesser kilometers travelled of car, by looking at skewness in density plot.
+3. This is often what you would expect from when you have cars where customers like to less travlled cars ,as more traveled cars means more maintenance cost which means more money he has incur from his pockets.
+4. The distance between the mean (55809) and with value having Z Score of -3.1 (-33359) is far more than between the mean and with value having Z Score of +2.4 (124843).
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.5. Box plot and histogram of Kilometers
+</FONT>
+</BR></B>
+
+ 
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#" to organize charts in a matrix of 1 rows and 2 column 
+par(mfrow=c(2,1))
+# to control margins inside charts 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Present Histogram
+hist(CarSales$Km,
+col = brewer.pal(12, "Set3"),
+main = paste("Histogram for Kilometers"),
+xlab = paste("Kilometers"), 
+las = 1)
+
+
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(CarSales$Km),
+       col = "blue",
+       lwd = 2)
+
+## Add Text for mean on Vertical Line
+text(x=mean(CarSales$Km)-2000, y=250,
+     paste("Mean =",round(mean(CarSales$Km))),
+     col = "Black",
+     srt=90, cex=0.8)
+
+# Box Plot"
+boxplot(CarSales$Km,
+main="Boxplot for Kilometers",
+xlab="Kilometers",
+col=c( "#DA7B7B","#9D8FF3"),
+border="brown", horizontal = T)
+
+
+
+
+```
+ 
+ ***Observation***
+
+<P>
+
+1. The histogram shows that the Kilometers is left skewed distribution which indicates that most values are cluttered around the right side of the distribution while the left side of the distribution is longer, it showcases a asymmettric distribution.
+2. This shows that median is less than mean for Kilometers and 
+3. The most frequency of kilometers is near 55k with nearly 650 frequency.
+4. The box plot shows that the Kilometers has many outliers after the maximum value, and as similar to histogram it also shows us the negative skewness.
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.6. Box plot and histogram of Price
+</FONT>
+</BR></B>
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+# "Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfrow=c(2,1))
+# Add mai=c() to control margins inside charts 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Present Histogram
+hist(CarSales$Price,
+col = brewer.pal(12, "Set3"),
+main = paste("Histogram for Price"),
+ylim = c(0, 1200),
+xlab = paste("Price"), 
+las = 1)
+
+
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(CarSales$Price),
+       col = "blue",
+       lwd = 2)
+
+## Add Text for mean on Vertical Line
+text(x=mean(CarSales$Price)-700, y=270,
+     paste("Mean =",round(mean(CarSales$Price))),
+     col = "Black",
+     srt=90, cex=0.8)
+
+# Box Plot"
+boxplot(CarSales$Price,
+main="Boxplot for Price",
+xlab="Price",
+col=c( "#DA7B7B","#9D8FF3"),
+border="brown", horizontal = T)
+
+
+
+
+```
+ 
+***Observation***
+
+<P>
+
+1. Histogram shows that the Price is also left skewness distribution which indicates that most values are situated around the right side of the distribution while the left side of the distribution is larger, it tells us that price has a asymmettric distribution.
+2. This shows that median is less than mean for Price 
+3. The most frequency of Price lies near 5000 Price tag with nearly 1000 frequency.
+4. As we observed in kilometers, the box plot shows that the Price don't have any outliers below the maximum value, and  which is similar to histogram it also shows us the negative skewness.
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4.5, COLOR ="#2770e6">
+2.7. Box Plot for Displaying Price Distribution Per Owner Type
+</FONT>
+</BR></B>
+
+
+```{r message=FALSE, warning=FALSE}
+
+#"Present a box plot for price distribution per owner"
+boxplot(CarSales$Price~CarSales$Owner,
+        main = "Box Plot of Price per Owner",
+        xlab=c("Price"), 
+        ylab = NA, 
+        col = brewer.pal(12, "Set3"), horizontal = T, las =1.5)
+```
+
+***Observation***
+
+<P>
+
+1. The box plot shows that fourth hand cars don't have too much spread between it's minimum and maximum price, but it got lot of outliers
+2. The first hand shows they have symmetric distribution with respect to price
+3. The third hand card have too much dispersion and has very clear left skewness
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4, COLOR ="#2770e6">
+2.8. Box Plot for Displaying Kilometers Distribution Per Location
+</FONT>
+</BR></B>
+
+
+
+```{r message=FALSE, warning=FALSE}
+# "Margins area
+par(oma=c(2,2,2,2)) # all sides have 3 lines of space
+par(mar=c(5,4,4,2) + 0.1)
+
+#Present a box plot for kilometers distribution per location"
+boxplot(CarSales$Km~CarSales$Location,
+        main = "Box Plot of Kilometers per Location",
+        xlab=c("Kilometers"), 
+        ylab = NA, 
+        horizontal = T,
+        las = 1.5,
+       cex.lab= 0.8,
+        col = brewer.pal(12, "Set3"))
+
+```
+
+***Observation***
+
+<P>
+1. The box plot for continous variable kilometer with respect to location shows, it has many outlies after maximum value of kilometers
+2. Most of them location got symmetric distribution with repsect to kilometers
+3. Especially, Kolkata and Mumbai has more outliers compared to other location
+4. Pune is only location where we don't any outliers and it has almost perfect symmetric distribution
+
+<P>
+<BR> <B>
+<FONT SIZE = 4, COLOR ="#2770e6">
+2.9. Results of Kilometers using code boxplot.stats()
+</FONT>
+</BR></B>
+
+```{r message=FALSE, warning=FALSE}
+
+boxplot.stats(CarSales$Km)
+
+```
+
+
+***Observation***
+
+<P>
+
+The code used above provided a summary of the car sales data statistics. It provides an in-depth analysis of the quantiles, co-efficients, and total number of unique entries in the dataset. It also provides a clear picture of the outliers in that variable.
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 4, COLOR ="#2770e6">
+2.10. Using Results from Task 9 to Plot Minimum, 1st Quartile, 2nd Quartile, 3rd Quartile and Maximum value of Kilometers in Dot Chart
+</FONT>
+</BR></B>
+
+ 
+
+```{r message=FALSE, warning=FALSE}
+
+
+# "Dot Chart Creation
+
+dotchart(boxplot.stats(CarSales$Km)$stats,
+         main = "Dot Chart:Quartiles for Kilometers",
+         col = factor(levels(factor(boxplot.stats(CarSales$Km)$stats))),
+         pch = 19)
+
+# Adding Legend"
+legend("topleft",
+       legend = factor(levels(factor(boxplot.stats(CarSales$Km)$stats))),
+       pch = 19, cex = 0.7,
+       col = factor(levels(factor(boxplot.stats(CarSales$Km)$stats))))
+box(col="black")
+
+
+```
+
+***Observation***
+
+<P>
+
+The fours dots displayed above are Minimum, 1st Quartile, 2nd Quartile, 3rd Quartile and Maximum value of Kilometers respectively from the bottom.
+The legend displays their actual values
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+3. CONCLUSIONS
+</FONT>
+</BR></B>
+
+1. The most selling cars type for our store is First Hand Cars, we should to try to maintain and increase our space thereby setting up new avenues in this type and try to bring new design.The least selling  is Third hand cars, which is a warning sign and we have to make plans to increase our initiative and set up some strategies after conducting a survey with some customer for their feedback to understand their behavioral patterns.
+
+3. Out most cars are sold in Mumbai, so we have to ensure our suplly chain should be intact in this region
+
+4. The most selling  car is Gasoline fuel cars, we should keep investing it and do marketing for that as it generates big profits and bring in dvidents for the company.
+
+5. We need to start increasing our sales in for CNG and LPG gas which are most sustainable source of energy as governments are giving new incentive for car manafacturing companies and also it better for our future
+
+6. Our net sales in Ahmedabad is lowest among other location, which shows by we need to set up new showrooms and do advertisements and digital marketing there to increase our sales in this region 
+
+
+
+
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+4. REFERENCES
+</FONT>
+</BR></B>
+
+1. Tiwari, R., & Herstatt, C. (2013). Aiming big with small cars: Emergence of a lead market in India. Springer Science & Business Media.
+
+2. Shende, V. (2014). Analysis of research in consumer behavior of automobile passenger car customer. International Journal of Scientific and Research Publications, 4(2), 1-8.
+
+3. Ramita Verma, M. B. A. (2013). PEST Analysis for Indian Luxurious Car Market. International Journal of Management and Social Sciencs, 2(1), 22-26.
+
+4. Cozzi, L., & Petropoulos, A. (2021). Global SUV sales set another record in 2021, setting back efforts to reduce emissions.
+
+5. Kumar, R. A., & Sriganesh, M. (2015). Omni-channel sales and marketing strategies in Indian automotive (car) industry.
+
+
+
+<P>
+<BR> <B>
+<FONT SIZE = 5, COLOR ="#2770e6">
+5. APPENDIX
+</FONT>
+</BR></B>
+
+An R Markdown file has been attached to this report. The name of the
+file is M1_Project_Maheswar_Raju.Rmd
+ 
+
+
+

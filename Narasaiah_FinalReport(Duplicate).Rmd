@@ -1,0 +1,870 @@
+
+
+<P>
+
+<BR>
+
+<CENTER>
+
+<FONT size=6, color="Blue"> **ALY 6000 - Introduction to Analytics** </FONT>
+<FONT size=6, color="Red">
+<BR>**Northeastern University** </FONT>
+
+
+<P>
+
+<FONT size=6, color="Black"> Analytics Report for Office Supply Store - 2020 </FONT>
+
+
+
+<P>
+
+<FONT size=5, color="Black"> <BR>Maheswar Raju Narasaiah <BR> Date:
+`r format(Sys.time(), '%d %B, %Y')`
+
+</CENTER>
+
+# 1. Introduction
+
+
+As digital services have grown in popularity, the office supply store industry has seen consistent revenue growth. Even though the industry was already declining, the onset of the COVID-19 (coronavirus) pandemic in 2020 is expected to exacerbate this trend. As a result, industry revenue is expected to fall at an annualized rate of 3.8% to $11.5 billion over the next five years, with a 1.2% increase in 2022 alone. It should be noted, however, that the increase in revenue in 2021 and 2022 is primarily a reaction to the large decrease in revenue in 2020 and is not indicative of typical industry trends. In 2020 alone, industry revenue fell 5.1%, owing primarily to poor economic conditions and low consumer purchasing power (Ünal et al.,2018).
+
+<P>
+Amid the coronavirus crisis, working from home is becoming the new normal in almost every country around the world. As traditional offices remain almost empty and most paperwork migrates to digital platforms, demand for core stationery products such as pens and paper has decreased (Manuszak & Moul, 2008). Meanwhile, sales and demand for home offices and standalone desks, headphones, monitors, and similar equipment have shifted.
+
+<P>
+**Importance of Analytics in Supplies Chain.**
+<P>
+Every department requires a robust business intelligence strategy for data analytics and business information management to assist teams in making more data-driven decisions and gaining a competitive advantage over other businesses. Because every step can be planned to utilize evidence, insights and business intelligence have the potential to fundamentally alter the way a task is carried out.
+
+<P>
+Any supply chain leader will agree that managing and constantly improving a global supply chain is difficult. You are tasked with coordinating operations among a large assortment of suppliers, vendors, buyers, carriers, agents, and local and international business partners, all with the common goal of providing a world-class customer experience (Malcata-Rebelo & Pinho, 2010). However, with so many moving parts, the amount of data and information flow, and the numerous disruptions that constantly put your supply chain to the test, this can be extremely difficult. Naturally, a massive amount of data is generated in this complex system. Industry leaders are quickly recognizing the significance of analytics in their institutions to effectively manage and use this data.
+
+According to a Gartner study, approximately 79% of supply chain leaders are working on plans to train their teams on the use of advanced analytics. So, what makes this so critical to the success of your supply chain? And how will you get forward with this problem and make the most of your supply chain data? This article will go over exactly that.
+
+<P>
+**Application of Big Data Analytics in Supply Chain Analytics**
+
+Big data in the office furniture industry can include anything from consumer preferences and behavior to buying patterns, places, and other information derived from sales data and online reviews. Companies that use big data see an average 8% increase in profits over those that do not. With the advent of customization, data engines and dashboards can be shaped to meet the business needs of each department, whether it's job recruitment, social media marketing performance, or managerial accounting (Dalkir & Warren, 2018).
+
+Supply chain analytics has a wide range of benefits for a company's supply chain operations. When used properly, it enables businesses to convert data into actionable reports, dashboards, and visualizations to achieve better results by:
+
+-   Improved decision-making in a company's supply chain operations 
+-   Understanding, identifying, and monitoring potential risks
+-   Facilitating accurate demand forecasting 
+-   Identifying and quantifying delay patterns 
+-   Optimizing inventory balance and avoiding excess/short stock
+
+All of this results in increased agility and resilience of your global supply chain, better control over orders, shipments, and inventory, and permanently lowered operational costs.
+<P>
+**About the Data Set**
+
+In this report, I have examined sales data of Office Supply Store in 2020, which includes details like order Id, order date, shipping locations, finances, etc.
+
+<P>
+**Problem identification**
+
+As customers become more sophisticated and better-informed because of the new trend of online shopping, the sales process is much less about selling a product and much more about creating a relationship. There has been an accompanying shift from product to service (or solution) selling (“servitization”) in many business-to-business interactions (Leitner, 1994). The emergence of servitization has inevitably widened the constituency that is involved in the sales and subsequent delivery processes.
+
+In this report, I am examining the change in the role of business-to-customer sales, its behavior, and specially focusing on areas of profits, loss & shipping cost. Through this I would like to answer the following question below:
+
+-   How did we perform financially in 2020? and how we can improve that.
+-   What does our most profitable product mix look like?
+-   What are the things your customer preferred shipping mode?
+-   How is our current shipping cost for different regions?
+-   What is regio where we have to increase our marketing? 
+
+
+<P>
+**Methodology/Approach**
+
+This report is structured as follows: first, we present some descriptive statistics of price, quantity, discount, shipping cost, and profits and see if there are any connections between them. Second, we check what is our most frequent price, quantity, discount & shipping cost, and check the interaction between sales and other functions of a firm. Third, we compare different categories of the segment, market, department & ship mode, and its observations. Fourth, we will discuss some business questions and findings from them. And then, we will try to analyze the correlation between profit and loss concerning the segment. Finally, we discuss the conclusions of the article and identify managerial implications and future market opportunities.
+
+
+However, analyzing and optimizing the sales process can hardly be done without the help of additional tools. So, I am using RStudio for visual analytics.
+
+
+# 2. Analysis 
+
+<P>
+In this section, we will perform analysis on various types of variables to gain insight and address our problems
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Library Used for Analysis of Office Supply Company
+library(magrittr)
+library(knitr)
+library(plotrix)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(CGPfunctions)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+library(kableExtra)
+
+
+
+# Datasets used in Project
+OfficeSales <- read_excel("Data Sets/Project6Data-1-1.xlsx")
+
+```
+
+**2.1. Basic descriptive statistics of Price, Quantity, Discount, Shipping Cost, and Profits**
+
+The table below shows the descriptive statistics of Price, Quantity, Discount, Shipping Cost, and Profits.
+
+```{r message=FALSE, warning=FALSE, , echo=FALSE}
+
+
+#Price : Basic Descriptive Statistics
+MeanPrice = mean(OfficeSales$Price)
+StdPrice = sd(OfficeSales$Price)
+MinPrice = min(OfficeSales$Price)
+MaxPrice = max(OfficeSales$Price)
+RangePrice = max(OfficeSales$Price)-min(OfficeSales$Price)
+MedianPrice = median(OfficeSales$Price)
+
+#Vector Creation for Price
+vectorPrice = c(MeanPrice, StdPrice, RangePrice, MedianPrice )
+
+
+#Quantity : Basic Descriptive Statistics
+MeanQuantity = mean(OfficeSales$Quantity)
+StdQuantity = sd(OfficeSales$Quantity)
+MinQuantity = min(OfficeSales$Quantity)
+MaxQuantity = max(OfficeSales$Quantity)
+RangeQuantity = max(OfficeSales$Quantity)-min(OfficeSales$Quantity)
+MedianQuantity = median(OfficeSales$Quantity)
+
+#Vector Creation for Quantity
+vectorQuantity = c(MeanQuantity, StdQuantity, RangeQuantity, MedianQuantity)
+
+
+# Discount : Basic Descriptive Statistics
+MeanDiscount = mean(OfficeSales$Discount)
+StdDiscount = sd(OfficeSales$Discount)
+MinDiscount = min(OfficeSales$Discount)
+MaxDiscount = max(OfficeSales$Discount)
+RangeDiscount = max(OfficeSales$Discount)-min(OfficeSales$Discount)
+MedianDiscount = median(OfficeSales$Discount)
+
+#Vector Creation for Discount
+vectorDiscount = c(MeanDiscount, StdDiscount, RangeDiscount,MedianDiscount )
+
+
+#ShippingCost_Product : Basic Descriptive Statistics
+MeanShippingCost_Product = mean(OfficeSales$ShippingCost_Product)
+StdShippingCost_Product = sd(OfficeSales$ShippingCost_Product)
+MinShippingCost_Product = min(OfficeSales$ShippingCost_Product)
+MaxShippingCost_Product = max(OfficeSales$ShippingCost_Product)
+RangeShippingCost_Product = max(OfficeSales$ShippingCost_Product)-min(OfficeSales$ShippingCost_Product)
+MedianShippingCost_Product = median(OfficeSales$ShippingCost_Product)
+
+#Vector Creation for ShippingCost_Product
+vectorShippingCost_Product = c(MeanShippingCost_Product, StdShippingCost_Product,RangeShippingCost_Product,MedianShippingCost_Product )
+
+
+#Profits : Basic Descriptive Statistics
+MeanProfits = mean(OfficeSales$Profits)
+StdProfits = sd(OfficeSales$Profits)
+MinProfits = min(OfficeSales$Profits)
+MaxProfits = max(OfficeSales$Profits)
+RangeProfits = max(OfficeSales$Profits)-min(OfficeSales$Profits)
+MedianProfits = median(OfficeSales$Profits)
+
+#Vector Creation for Profits
+vectorProfits = c(MeanProfits, StdProfits, RangeProfits, MedianProfits)
+
+
+#Matrix Creation for basic descriptive statistics
+OfficeSales_Table = matrix(c(vectorPrice,vectorQuantity, vectorDiscount, vectorShippingCost_Product, vectorProfits  ), nrow = 5, byrow = TRUE)
+
+
+##Rounding Digits in Matrix
+OfficeSales_Table_Rounded = round(OfficeSales_Table, digits = 2)
+
+##Naming Columns and Row Names in Table
+colnames (OfficeSales_Table_Rounded) = c("Mean",  "StDev", "Range","Median" )
+
+rownames (OfficeSales_Table_Rounded) = c("Price","Quantity", "Discount", "Shipping Cost", "Profits")
+
+
+#Table Creation of of Matrix Using Knitr Package
+OfficeSales_Table_Rounded %>% 
+  knitr::kable(caption = "Descriptive Statistics of Price, Quantity, Discount, Shipping Cost & Profits") %>%
+  kable_styling(bootstrap_options = c("striped","hover"))
+
+```
+***Observation***
+
+<P>
+
+1. The table shows that the price and profits have large dispersion as range of is very high when compared to it mean
+2. This shows that quantity with which our most sales is 6.61
+3. The standard deviation of profit is very high when compared to other variable
+3. The variable Discount is very tightly knitted by looking at it's statistics
+
+**2.2. Box plots and histograms of Price, Quantity, Discount, and Shipping Cost**
+
+In this section, we are going to check the frequency distribution of Price, Quantity and Shipping Cost using Histogram and Box Plot. Histogram is a chart that plots the distribution of a numeric variable’s values as a series of bars. And box plot is used generally when we wish to compare the distribution of a numeric variable across levels of a categorical variable
+
+
+**2.2.1. Box plots and histograms of Price**
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+# Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfcol=c(1,2))
+
+# Used code mai=c() to control margins inside charts 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Present Histogram
+hist(OfficeSales$Price,breaks = 15,
+col = brewer.pal(12, "Paired"),
+main = paste("Histogram for Price"),
+xlab = paste("Price"), 
+ylim = c(0,350),
+xlim = c(0,3500),
+las = 1)
+
+
+## Vertical line and text for the mean for Histogram of Price
+abline(v = mean(OfficeSales$Price),
+       col = "blue",
+       lwd = 2)
+## Add Text for mean on Vertical Line
+text(x=mean(OfficeSales$Price)+130, y=330,
+     paste("Mean =",round(mean(OfficeSales$Price))),
+     srt=90, cex=0.8)
+
+# Box Plot
+boxplot(OfficeSales$Price,
+main="Boxplot for Price",
+ylab="Price",
+col=c( "Purple"),
+border="brown")
+
+## Add a horizontal line for the mean
+abline(h = mean(OfficeSales$Price),
+       col = "#7127D1",
+       lwd = 1)
+
+text(y=mean(OfficeSales$Price),
+     x=0.65 ,
+     paste("Mean:", round(mean(OfficeSales$Price),1)),
+     col = "#7127D1",
+     cex = 0.8,
+     pos = 3)
+
+
+
+```
+***Observation***
+
+<P>
+1. The histogram shows that the price is rightly skewed which is asymmetric distribution is a type of distribution in where most values are clustered are condensed around the left tail of the distribution while the right tail of the distribution is longer than left tail.
+2. This shows that median is greater than mean for price and the most frequency of price is near 500.
+3. The box plot shows that the price after 1165 are all outliers and and minimum value is 15.172.
+
+
+**2.2.2. Box plots and histograms of Quantity**
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+# Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfcol=c(1,2))
+# Add mai=c() to control margins inside graphs 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Present Histogram of Quantity
+hist(OfficeSales$Quantity,breaks = 18,
+col = brewer.pal(12, "Accent"),
+main = paste("Histogram for Quantity"),
+xlab = paste("Quantity"), 
+ylim = c(0,250),
+xlim = c(0.5,20),
+las = 1)
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(OfficeSales$Quantity),
+       col = "blue",
+       lwd = 2)
+
+## Add Text for mean on Vertical Line
+text(x=mean(OfficeSales$Quantity)-0.5, y=220,
+     paste("Mean =",round(mean(OfficeSales$Quantity),1)),
+     srt=90, cex=0.8)
+
+# Box Plot
+boxplot(OfficeSales$Quantity,
+main="Boxplot for Quantity",
+ylab="Quantity",
+col=c("#18F7C8"),
+border="brown")
+
+## Add a horizontal line for the mean on boxplot
+abline(h = mean(OfficeSales$Quantity),
+       col = "#7127D1",
+       lwd = 1)
+
+text(y=mean(OfficeSales$Quantity),
+     x=0.65 ,
+     paste("Mean:", round(mean(OfficeSales$Quantity),1)),
+     col = "#7127D1",
+     cex = 0.8,
+     pos = 3)
+
+
+```
+
+***Observation***
+
+<P>
+
+1. The histogram shows that the quantity is rightly skewed which distribution is a type of distribution in which most values are clustered around the left tail of the distribution while the right tail of the distribution is longer, it got a asymmettric distribution.
+2. This shows that median is greater than mean for quantity and the most frequency of quantity is 6 with more than 200 observations.
+3. The box plot shows that the quantity after 12 are all outliers and and minimum value is 3.
+4. The box also shows it is righly skewed because when the median is closer to the bottom of the box, and if the whisker is shorter on the lower end of the box, then the distribution is positively skewed (skewed right).
+
+**2.2.3. Box plots and histograms of Discount**
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+# Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfcol=c(1,2))
+# Add mai=c() to control margins inside graphs 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Present Histogram of Discount
+hist(OfficeSales$Discount,breaks = 20,
+col = brewer.pal(12, "Set3"),
+main = paste("Histogram for Discount"),
+xlab = paste("Discount"), 
+ylim = c(0,300),
+xlim = c(0,0.35),
+las = 1)
+
+
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(OfficeSales$Discount),
+       col = "blue",
+       lwd = 2)
+
+## Add Text for mean on Vertical Line
+text(x=mean(OfficeSales$Discount)-0.010, y=200,
+     paste("Mean =",round(mean(OfficeSales$Discount), 2)),
+     srt=90, cex=0.8)
+
+
+# Box Plot
+boxplot(OfficeSales$Discount,
+main="Boxplot for Discount",
+ylab="Discount",
+col=c( "#18C4F7"),
+border="brown")
+
+## Add a horizontal line for the mean on boxplot
+abline(h = mean(OfficeSales$Discount),
+       col = "#7127D1",
+       lwd = 1)
+
+text(y=mean(OfficeSales$Discount),
+     x=0.65 ,
+     paste("Mean:", round(mean(OfficeSales$Discount),2)),
+     col = "#7127D1",
+     cex = 0.8,
+     pos = 3)
+
+
+```
+
+***Observation***
+
+<P>
+
+1. The histogram shows that the Discount is rightly skewed which distribution is a type of distribution in which most values are clustered around the left tail of the distribution while the right tail of the distribution is longer, it got a asymmettric distribution.
+2. This shows that median is greater than mean for Discount and the most frequency of discount is at 0.01 with nearly 300 observations.
+3. The box plot shows that the Discount after 12 are all outliers and and minimum value is 3.
+4. The box also shows it is righly skewed because when the median is closer to the bottom of the box, and if the whisker is shorter on the lower end of the box, then the distribution is positively skewed (skewed right).
+
+
+
+**2.2.4. Box plots and histograms of Shipping Cost**
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+# Used code mfcol() to organize charts in a matrix of 1 rows and 2 column 
+par(mfcol=c(2,1))
+# Add mai=c() to control margins inside charts 
+par(cex=0.7, mai=c(0.6,0.55,0.2,0.1))
+
+#Present Histogram
+hist(OfficeSales$ShippingCost_Product,breaks = 30,
+col = brewer.pal(12, "Set3"),
+main = paste("Histogram for Shipping Cost"),
+xlab = paste("Shipping Cost"), 
+ylim = c(0,400),
+xlim = c(0,100),
+las = 1)
+
+
+
+## Vertical line and text for the mean for Histogram
+abline(v = mean(OfficeSales$ShippingCost_Product),
+       col = "blue",
+       lwd = 2)
+
+## Add Text for mean on Vertical Line
+text(x=mean(OfficeSales$ShippingCost_Product)-1.2, y=250,
+     paste("Mean =",round(mean(OfficeSales$Price))),
+     srt=90, cex=0.8)
+
+# Box Plot
+boxplot(OfficeSales$ShippingCost_Product,
+main="Boxplot for Shipping Cost",
+xlab="Shipping Cost",
+col=c( "#DA7B7B","#9D8FF3"),
+border="brown", horizontal = T)
+
+
+
+
+```
+
+***Observation***
+
+<P>
+
+1. The histogram shows that the Shipping Cost is left skewed which distribution is a type of distribution in which most values are clustered around the right tail of the distribution while the left tail of the distribution is longer, it got a asymmettric distribution.
+2. This shows that median is less than mean for Shipping Cost and the most frequency of shipping cost is near 40 with nearly 300 observations.
+3. The box plot shows that the Shipping Cost has many outliers because many values are outside the whisker
+
+
+**2.3. Compare Different Categories of Segment, Market, Department, and Ship Mode**
+
+**2.3.1. Different Categories of Segment Using Bar Graph**
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Table Creation of Segment for Bar Graph
+tbar3.1 = table(OfficeSales$Segment)
+
+#Bar Graph 
+plotSegment = barplot(tbar3.1, main="Bar Plot for Segment",
+                 xlab = "Segment",
+                col = brewer.pal(15, "Set2"),
+                border = "black",
+                ylim = c(0,700),
+                 las = 1.5,
+                cex.lab = 1, 
+                cex.axis = 1,
+                 cex.names = 0.8)
+
+#Adding Lables
+text(y=tbar3.1, 
+     plotSegment, 
+     tbar3.1, 
+     cex=0.8, 
+     pos = 3)
+
+```
+
+***Observation***
+
+<P>
+
+1. The bar graph clearly shows customer buys consumer products which around 55% 
+2. And least selling product are from Home- Office segment.
+
+
+**2.3.2. Different Categories of Market Using Bar Graph**
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Table Creation of Market for Bar Graph
+tbar3.2 = table(OfficeSales$Market)
+
+#Bar Graph
+plotMarket = barplot(tbar3.2, main="Bar Plot for Market",
+                 ylab = "Market",
+                 xlab = "Frequency",
+                col = brewer.pal(15, "Set1"),
+                border = "black",
+                xlim = c(0,400),
+                 las = 1.5,
+                cex.lab = 1, 
+                cex.axis = 1,
+                 cex.names = 0.7,
+                 horiz = T,
+                 space = 0.4)
+
+#Adding Lables
+text(x=tbar3.2, 
+     plotMarket, 
+     tbar3.2, 
+     cex=0.8, 
+     pos = 4)
+
+```
+
+***Observation***
+<P>
+
+1. The bar graph clearly shows our biggest market is from Asia Pacific 55% 
+2. The 2nd most biggest market for store supply is from Europe.
+3. The smallest market we have if from Aftricea, we have implement some strategies to increase our sales their and win some more accounts
+
+**2.3.3. Different Categories of Department Using Pie Chart**
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Table Creation of Department for Pie Chart
+t17piechart  <- table(OfficeSales$Department)
+
+#Lable Creation for Pie Chart
+pieLabel4 = paste(unique(sort(OfficeSales$Department)),":", sort(t17piechart),"(",round(100 * t17piechart/sum(t17piechart), 2),"%",")")
+
+
+# Plot the pie chart for Department.
+pie1 = pie(t17piechart, labels = pieLabel4,
+           radius = 0.6,
+           col =  rainbow(length(t17piechart)),
+    border = "white",
+    lty = 1,
+    cex=0.8,
+    font = 3,
+    clockwise = T)
+
+legend("topleft",
+       legend = paste(unique(sort(OfficeSales$Department))),
+       fill = rainbow(length(t17piechart)),
+       border = "white")
+box(col="black")
+
+
+box(col="black")
+```
+
+***Observation***
+
+<P>
+
+1. Pie Chart shows that we have almost equal share of Department after taking look at the data
+2. Technology Department is having very advantage than office supplies due almost only 2 %.
+2, We need to focus getting furniture business more as it is having less share amongst three.
+
+**2.3.3. Different Categories of Shipping Mode Using Pie Chart**
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Table Creation of Shipping Mode for Pie Chart
+
+t17piechart  <- table(OfficeSales$ShipMode)
+
+#Lable Creation for Pie Chart
+pieLabel4 = paste( unique(sort(OfficeSales$ShipMode)),":", sort(t17piechart),"(",round(100 * t17piechart/sum(t17piechart), 2),"%",")")
+
+
+# Plot the pie chart for ship mode.
+pie1 = pie(t17piechart, labels = pieLabel4,
+           radius = 0.6,
+           col =  brewer.pal(7, "Dark2"),
+    border = "white",
+    lty = 1,
+    cex=0.8,
+    font = 3,
+    clockwise = T)
+
+legend("topleft",
+       legend = paste(unique(sort(OfficeSales$ShipMode))),
+       fill = brewer.pal(7, "Dark2"),
+       border = "white")
+box(col="black")
+
+
+box(col="black")
+```
+
+***Observation***
+<P>
+
+1. Pie Chart shows that we have standard class mode is mostly how we ship our products to customer, and have almost 55% share
+2. Same day mode is least prefferable mode almost only 6.5 %.We need to focus getting shipping products in same day mode more as it is having less share amongst four of them.
+
+
+**2.4. Business questions, statistics inside sub-categories**
+
+**2.4.1.  What is Total Quantity for Each Shipping Mode?**
+
+Below dot chart shows the total Quantity with respect to Each Shipping Mode
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Sum of Quantity for each Shipping Mode
+SumQuantity = tapply(OfficeSales$Quantity, OfficeSales$ShipMode, sum)
+
+#Dot Chart
+dotchart(SumQuantity,
+         col = brewer.pal(11, "Set1"),
+         main = "Dot Chart:Total Quantity for each Shipping Mode", 
+         pch = 19)
+
+
+```
+
+***Observation***
+
+<P>
+
+1. Dot Chart shows that most of quantity of products are sold is standard class
+2. The second most preferable method of shipping is second class.
+
+**2.4.2.  What is Average Shipping Cost For Each Segment?**
+
+Below bar graph shows the averarge Shipping Cost For Each Segment
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Mean of Shipping Cost for each Segment
+MeanShippingCost = tapply(OfficeSales$ShippingCost_Product, OfficeSales$Segment, mean, digits=2)
+
+#Round the meanShipping value
+roundShip = round(MeanShippingCost,2)
+
+#Plotting the Bar Graph
+plotShipping = barplot(roundShip, main="Bar Graph: Averarge Shipping Cost Each Segment",
+                ylab="Averarge Shipping Cost", 
+                xlab="Segment", 
+                col =  brewer.pal(7, "Paired"),
+                border = "black",
+               ylim=c(0,50),
+                 las = 1,
+                cex.lab = 1, 
+                cex.axis = 0.6,
+                 cex.names = 0.8,
+                 space = 0.4)
+#Adding Lables
+text(y=roundShip, 
+     plotShipping, 
+     roundShip, 
+     cex=0.8, 
+     pos = 3)
+
+```
+
+***Observation***
+<P>
+1. The avg. shipping cost for corporate is 38.66 which is greater compared to any other segment, we need to bring down in order to bring down the price
+2. The consumer product have less shipping copst at around 35.18
+
+**2.4.3.  What is  Median Profits For Each Market?**
+
+Below scatter plot shows the Median Profits For Each Market
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Median of Profits for each Market
+MedianProfits = tapply(OfficeSales$Profits, OfficeSales$Market, median, na.rm=TRUE)
+
+pieChart = table(MedianProfits)
+
+#plotting Scatter Plot
+plot(MedianProfits, pch = 20,
+     col = factor(OfficeSales$Market),
+     ylab = "Profits")
+
+# Adding Legend
+legend("topleft",
+       legend = levels(factor(OfficeSales$Market)),
+       pch = 20, cex = 0.7,
+       col = factor(levels(factor(OfficeSales$Market))))
+box(col="black")
+
+
+```
+
+
+
+**2.5. Average Shipping Cost Each Segment in Eastern US Region**
+
+Below table and bar plot shows the Average Shipping Cost Each Segment in Eastern US Region.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Filtering the Eastern US Region value from OfficeSales
+t5EasternUS = dplyr::filter(OfficeSales, Region=="Eastern US")
+
+#Mean for Shopping Cost in each Segment in Eastern US
+AverageEasternUS = tapply(t5EasternUS$ShippingCost_Product,t5EasternUS$Segment, mean)
+
+#Present the Data in Table
+knitr::kable(round(AverageEasternUS, 2),
+             caption = "Average Shipping Cost in each Segment in Eastern US",
+              col.names = c("Avg. Shipping Cost"),
+             format = "html",
+             table.attr="style=width: 40%", align = "lccrr") %>%
+ kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kable_classic(full_width = F, html_font = "Times New Roman")
+
+#Present a box plot of Latam profits
+boxplot(t5EasternUS$ShippingCost_Product~t5EasternUS$Segment,
+        main = "Box Plot of Shipping Cost in each Segment in Eastern US",
+        xlab=c("Segment"), 
+        ylab = c("Shipping Cost"), 
+        col = brewer.pal(12, "Set3"))
+
+```
+
+***Observation***
+
+<P>
+
+1. The shipping cost for our home-office product is more than 60% of shipping cost of consumer and corporate products.
+2. The averaGEshipping cost of consumer and corporate products are almost same.
+3. The maximum value and 3rd Quartile for corporate segment have the same value. The dispersion is very less
+
+**2.6. Scatter Plot: Profits vs Total Loss for Each Segment**
+
+Below scatter plot is trying to identify is there is co-relation between loss and profits for each segment. A scatter plot (also known as a scatter chart or scatter graph) uses dots to represent the values of two numerical variables. Each dot on the horizontal and vertical axes represents a value for a single data point. Scatter plots are used to investigate the relationships between variables.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+# Scatter plot
+plot(OfficeSales$Total_loss, OfficeSales$Profits,
+     pch = 19,
+     col = factor(OfficeSales$Segment),
+     xlab = "Total Loss",
+     ylab = "Profits",
+     main = "Scatter Plot")
+
+# Legend
+legend("topleft",
+       legend = levels(factor(OfficeSales$Segment)),
+       pch = 19,
+       col = factor(levels(factor(OfficeSales$Segment))))
+
+
+
+```
+
+***Observation***
+<P>
+1. The most density of profits and loss for all the segments is below 2000 profits and 2000 of loss.
+2. Scatter plots of profits and loss for each company segment shows that it has some association with different company segment, so every segment has the almost same pattern of sales.
+3. As profit and loss is increasing, the distribution becomes divergent.
+
+**2.7. Density Plot for Quantity**
+
+Below I have prepared density curve, also known as a kernel density estimate (KDE), which is a histogram alternative that provides each data position a continuous contribution to the distribution. Consider each data point in a histogram as pouring liquid from its value into a series of cylinders below (the bins). Each data point in a KDE adds a small lump of quantity around its true value, which is stacked across data points to produce the final curve. The 'kernel' is the shape of the lump of volume, and there are infinite possibilities.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+#Selecting Quantity for Density
+Quantity = OfficeSales$Quantity
+
+#Creating object for vertical line
+meanQuantity = mean(Quantity)
+maxQuantity = max(Quantity)
+minQuantity = min(Quantity)
+sdQuantity = sd(Quantity)
+sd3below = ((3*sdQuantity) - meanQuantity)
+sd3above = (meanQuantity + (3*sdQuantity))
+
+# Density estimation
+densityQuantity = density(Quantity) 
+
+# Density Plot
+plot(densityQuantity, adjust = 2, main = "Density Plot for Quantity")
+
+# Fill area
+polygon(densityQuantity, col = rgb(0.78, 0.89, 1, alpha = 0.6))
+
+#Vertical Lines
+abline(v=meanQuantity)
+abline(v=maxQuantity,  col = "Blue")
+abline(v=minQuantity,  col = "Blue")
+abline(v=sd3below, col = "Yellow" )
+abline(v=sd3above, col = "Yellow" )
+
+#Adding text for vertical lines
+text(x=meanQuantity-0.5, y=0.10,
+     paste("Mean =",round(meanQuantity,1)),
+     srt=90, cex=0.8)
+
+text(x=minQuantity-0.5, y=0.15,
+     paste("Min =",round(minQuantity,1)),
+     srt=90, cex=0.8)
+
+text(x=maxQuantity-0.5, y=0.15,
+     paste("Max =",round(maxQuantity,1)),
+     srt=90, cex=0.8)
+
+```
+
+***Observation***
+
+<P>
+
+1. Density plot shows that most of the sales are made with 5 quantities.
+2. Most of the sales take place at lesser quantities of product, by looking at skewness in scatter plot, and we’ve got very less sales happening with larger quantities of product.
+3. This is often what you would expect from when you have things that start at a particular value and anything associated with money is usually going to end up looking like this.
+4. The population (N) between the mean (6.6) and minimum value (3) have greater density than between the mean (6.6) and maximum value (17)
+
+
+# 3. Conclusions
+
+**Insights from Sales Data**
+
+1. The most profit-making region for our store is Asia Pacific, we should to try to maintain and increase our space thereby setting up new avenues in thgis region.The least profits-making region is Africa, which is a warning sign and we have to make plans to increase our marketing and set up some strategies after speaking with some customer to understand their behavioral patterns.
+
+3. We are losing money by selling the chairs in furniture department, as total loss in 2020 we incurred was 119907.
+
+4. The most profit-making department is Technology Products, we should keep investing it and do marketing for that as it generates big profits for the company.
+
+5. Our shipping cost for Eastrern Africa region is very heigh , so we need to either set up new warehouses or find vendor who can ship our produts at better prices
+
+6. Our net sales and profits for consumer segment is highest, which shows by selling our consumer segment we are marking good profits. we have to start increasing our product mix with products of this segment.
+
+
+Most of the sales take place at lesser quantities of product, by looking at skewness in histogram and boxplot, and we’ve got very less sales happening with larger quantities of product.
+
+
+<P>
+
+**After working on this project, Below are skills that I have learned and improved upon**
+
+1. Business Sense - I've learned how to use data to formulate actionable solutions for companies. As a result, I got to know the characteristics of the field and the specific business to provide the best solutions.
+
+2. Attention to Detail - Because I became accustomed to working with large amounts of data, it's simple to overlook details that are critical to the success of a project. As data analysts, we must analyze mountains of data and use our detail-oriented approach to identify and employ the most important data sets.
+
+3. Writing Efficient and Maintainable Program - As this is my first time learning to program and work with data, I have learned how to different approaches to process and analyze the data. A good data analyst must be familiar with programming languages to write algorithms or applications to decode data and APIs to gather and prepare data.
+
+4. Debugging Skills: I improved my debugging skills by attempting to identify the root cause whenever code was failing to produce the expected results.
+
+5. Critical Thinking - I've developed a critical thinking skill because I can glance at a problem or circumstance and understand how and why it exists. Recognizing the full extent of the problem is the first essential step toward devising a successful solution.
+
+6. Perseverance - Because not all problems are simple, particularly in the field of data science. Many difficulties have multiple layers beneath them, each with a different level of complexity. Because of the sophistication and lack of a simple linear track, people may give up. I have established analytical skills that have aided my ability to look beyond one problem at a time in order to acquire a more consistent view of the complexity of a problem.
+
+7. Effective Communication - Clear communication is a fine art that successful data analysts cultivate throughout their careers.I have learned to present my ideas and communicate essential information to managers and other stakeholders, I got confident in presenting the data and relaying it in layman's terms. I have developed the ability to create the most actionable solutions to business problems. Because sometimes solutions, however, cannot be implemented unless you can convey that information to those in charge.
+
+
+# 4. References
+
+
+1.	Ünal, E., Urbinati, A., & Chiaroni, D. (2018). Managerial practices for designing circular economy business models: The case of an Italian SME in the office supply industry. Journal of manufacturing technology management
+2.	Manuszak, M. D., & Moul, C. C. (2008). Prices and endogenous market structure in office supply superstores. The Journal of Industrial Economics, 56(1), 94-112
+3.	Malcata-Rebelo, E., & Pinho, P. (2010). Evaluation and monitoring of office markets. Environment and Planning B: Planning and Design, 37(2), 305-325
+4.	Dalkir, S., & Warren-Boulton, F. (2018). Prices, market definition, and the effects of merger: Staples-Office Depot (1997). The Antitrust Revolution: Economics, Competition, and Policy, 7th edn. Oxford University Press, New York (2018).
+5.	Leitner, H. (1994). Capital markets, the development industry, and urban office market dynamics: rethinking building cycles. Environment and planning a, 26(5), 779-802
+
+
+# 5. Appendix
+
+An R Markdown file has been attached to this report. The name of the
+file is Narasaiah_FinalReport(Duplicate)
+

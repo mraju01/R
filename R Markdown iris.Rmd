@@ -1,0 +1,95 @@
+---
+title: "Iris Database Analysis"
+output: html_document
+date: "2022-09-26"
+---
+
+```{r ,echo=FALSE, message=FALSE, warning=FALSE}
+
+library(readxl)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(datasets)
+
+
+```
+
+
+<FONT SIZE = 3, color="red"><B>WORD</B></FONT>
+
+
+
+<P><BR>
+<CENTER>
+<FONT size=5, color="blue">
+<B>Maheswar Raju</B>
+</FONT>
+<P>
+<FONT size=4, color="red">
+Northeastern University
+<BR>
+ALY 6000
+</FONT>
+</CENTER>
+
+```{r message=FALSE, warning=FALSE,echo=FALSE}
+
+library(readxl)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(datasets)
+library(magrittr)
+library(knitr)
+library(plyr)    
+library(dplyr) 
+library(readxl)
+library(gridExtra)
+library(RColorBrewer)
+library(lattice)
+library(ggplot2)
+library(DT)
+
+plot(iris$Species, 
+     col = brewer.pal(12, "Set3"),
+main = paste("Bar Plot for Species"),
+xlab = paste("Species"),
+ylab = paste("Frequency"),
+ylim= c(0, 60))
+```
+
+
+```{r message=FALSE, warning=FALSE,echo=FALSE}
+hist(iris$Sepal.Length, 
+     breaks = 15 ,
+     main = paste("Histogram"),
+col = terrain.colors(12),
+xlab = paste("Sepal Length"),
+ylab =  paste("Frequency"),
+labels = T)
+```
+
+```{r message=FALSE, warning=FALSE,echo=FALSE}
+hist(iris$Sepal.Length, 
+     breaks = 15 ,
+     main = paste("Histogram between 5 and 6"),
+col = terrain.colors(15),
+xlab = paste("Sepal Length"),
+ylab =  paste("Frequency"),
+ylim = c(0,20),
+xlim = c(5,6),
+labels = T)
+```
+
+```{r message=FALSE, warning=FALSE,echo=FALSE}
+boxplot(iris$Petal.Length~iris$Species,
+        main="Boxplot: Sepal Length For Each Species",
+xlab="Species",
+ylab="Sepal Length",
+col=c("#3BBD59", "#DA7B7B","#9D8FF3"),
+border="brown"
+)
+
+```
+
